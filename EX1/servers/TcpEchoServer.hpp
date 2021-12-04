@@ -34,29 +34,37 @@ enum class IpAddrKind : int {
     V6 = AF_INET6
 };
 
-struct SocketData {
-    int port;
-    IpAddrKind ipVersion;
-    union {
-        sockaddr_in *addressV4;
-        sockaddr_in6 *addressV6;
-    };
-};
+//union IpAddress {
+//    sockaddr_in *addressV4;
+//    sockaddr_in6 *addressV6;
+//};
+
+//struct SocketData {
+//    int port;
+//    sockaddr_storage *const address;
+////    union {
+////        sockaddr_in *addressV4;
+////        sockaddr_in6 *addressV6;
+////    };
+//};
 
 constexpr int BUFFER_SIZE = 1024;
 
 class TcpEchoServer {
 private:
     int mServerFd;
+    const IpAddrKind mIpVersion;
 
-    static sockaddr *setIp(const SocketData* _address);
+    sockaddr *setIp(int _port, sockaddr_storage *const _address);
+
+    bool requestHandler(int _clientFd) const;
 
 public:
-    TcpEchoServer();
+    explicit TcpEchoServer(IpAddrKind _addressKind);
 
-    void initializeSocket(int _port, IpAddrKind _ipAddrKind = IpAddrKind::V4, int _optval = 1);
+    void initializeSocket(int _port, int _optval = 1);
 
-    void startRequestHandler() const;
+    void startRequestHandler();
 
     ~TcpEchoServer();
 };

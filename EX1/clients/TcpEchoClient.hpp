@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstring>
 #include "shared.hpp"
+#include "../errors.hpp"
 
 #ifdef _WIN32
 
@@ -27,11 +28,24 @@
 
 #endif
 
+enum class IpAddrKind : int {
+    V4 = AF_INET,
+    V6 = AF_INET6
+};
 
 class TcpEchoClient {
-    int mClientFd;
+    const IpAddrKind mIpVersion;
+    const int mClientFd;
+
+private:
+    int setupConnection(const Args *_args);
+
 public:
-    int setupConnection(const Args *const _args);
+    TcpEchoClient(const Args *_args, IpAddrKind _addressType);
+
+    void startRequest() const;
+
+    ~TcpEchoClient();
 };
 
 
