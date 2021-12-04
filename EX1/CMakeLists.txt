@@ -15,6 +15,9 @@ add_executable(
 add_executable(
         client
         client_main.cpp client.hpp
+        clients/shared.cpp clients/shared.hpp
         clients/TcpEchoClient.cpp clients/TcpEchoClient.hpp
+        clients/TcpHttpEchoClient.cpp clients/TcpHttpEchoClient.hpp
+        clients/TcpEnviEchoClient.cpp clients/TcpEnviEchoClient.hpp
         clients/UdpEchoClient.cpp clients/UdpEchoClient.hpp
-        clients/shared.hpp)
+)
