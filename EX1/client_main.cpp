@@ -7,14 +7,8 @@
 using namespace std;
 
 int main(int _argc, char *_argv[]) {
-    const auto args = parseArgs(_argc, _argv);
 
-    const int clientFd = setupConnection(&args);
-
-    char serverAck[4];
-    char msg[BUFFER_SIZE];
-
-    int inputServerType = 0;
+    int inputClientType = 0;
     do {
         cout << "C++ Client Menu:" << endl;
         cout << "-----------------------------" << endl;
@@ -26,70 +20,50 @@ int main(int _argc, char *_argv[]) {
         cout << "6. EXIT" << endl;
         cout << "-----------------------------" << endl;
         cout << "Choose server type to start: ";
-        cin >> inputServerType;
+        cin >> inputClientType; // >> std::skipws
+        cin.clear();
+        cin.ignore(); //std::numeric_limits<std::streamsize>::max()
 
-        if (inputServerType < 1 || inputServerType > 6) {
+        if (inputClientType < 1 || inputClientType > 6) {
             cout << endl;
             cout << "#####################################" << endl;
-            cout << "Option " << inputServerType << " not found, please try again" << endl;
+            cout << "Option " << inputClientType << " not found, please try again" << endl;
             cout << "#####################################" << endl;
             cout << endl;
         }
 
-    } while (inputServerType < 1 || inputServerType > 6);
+    } while (inputClientType < 1 || inputClientType > 6);
 
-    while (true) {
-        cout << "Enter the data: ";
-        cin.getline(msg, BUFFER_SIZE);
+    const auto args = parseArgs(_argc, _argv);
 
-        if (strncmp(msg, QUIT, strlen(QUIT)) == 0) break;
-
-        send(clientFd, msg, strlen(msg), 0);
-
-        if (strncmp(msg, SHUTDOWN, strlen(SHUTDOWN)) == 0) break;
-
-//        const auto status = recv(clientFd, serverAck, 4, 0);
-        const auto status = recv(clientFd, msg, BUFFER_SIZE, 0);
-
-        if (status == -1) {
-            errorExit("NO MSG RECEIVED", NO_MSG_ERROR, clientFd);
-        } else if (status == 0) {
-            errorExit("SERVER CLOSED", SERVER_ERROR, clientFd);
+    switch (static_cast<ClientType>(inputClientType)) {
+        case ClientType::TcpV4Echo: {
+            TcpEchoClient client(&args, IpAddrKind::V4);
+            client.startRequest();
+            break;
         }
-
-        cout << msg << endl;
-//        if (strncmp(serverAck, "ACK", 4) != 0) errorExit("DIDN'T RECEIVE ACK FROM SERVER", SERVER_ERROR, clientFd);
-
-        memset(msg, 0, BUFFER_SIZE);
-        memset(serverAck, 0, 4);
+        case ClientType::TcpV6Echo: {
+            TcpEchoClient client(&args, IpAddrKind::V6);
+            client.startRequest();
+            break;
+        }
+        case ClientType::UdpEcho: {
+            UdpEchoClient client;
+            break;
+        }
+        case ClientType::TcpHttp: {
+            TcpHttpEchoClient client;
+            break;
+        }
+        case ClientType::TcpEnvi: {
+            TcpEnviEchoClient client;
+            break;
+        }
+        case ClientType::Exit:
+            break;
     }
-
-    close(clientFd);
 
     return 0;
-}
-
-int setupConnection(const Args *const _args) {
-    sockaddr_in serverAddress;
-
-    const int clientFd = socket(AF_INET, SOCK_STREAM, 0);
-
-    if (clientFd < 0) {
-        errorExit("ERROR GETTING SOCKET_FD", SOCKET_ERROR, clientFd);
-    }
-
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(_args->port);
-    serverAddress.sin_addr = _args->ipAddress;
-    memset(&(serverAddress.sin_zero), '\0', 8);
-
-    const int connectionStatus = connect(clientFd, (sockaddr *) &serverAddress, sizeof(serverAddress));
-
-    if (connectionStatus == -1) {
-        errorExit("CONNECTION FAILED", SOCKET_ERROR, clientFd);
-    }
-
-    return clientFd;
 }
 
 Args parseArgs(const int _argc, const char *const _args[]) {
@@ -103,19 +77,7 @@ Args parseArgs(const int _argc, const char *const _args[]) {
         errorExit("Port not usable (can only be 1024-65353)", PORT_ERROR);
     }
 
-    const auto ip = _args[2];
-    in_addr ipAddress;
-    const int ret = inet_aton(ip, &ipAddress);
-
-    if (ret < 0) {
-        errorExit("Invalid IP-Address", PORT_ERROR);
-    }
+    const auto ipAddress = _args[2];
 
     return Args{ipAddress, port};
-}
-
-void errorExit(const char *const _msg, int _exitCode, const int _fd) {
-    cerr << "\n" << "<<< " << _msg << " >>>" << endl;
-    _fd != -1 && close(_fd);
-    exit(_exitCode);
 }

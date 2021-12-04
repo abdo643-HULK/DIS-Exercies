@@ -17,4 +17,15 @@ using namespace std;
 
 void errorExit(const char *_msg, int _exitCode);
 
+// Subsequent enumerators, if they are not given an explicit value,
+// receive the value of the previous enumerator plus one.
+enum class ServerType: int {
+    TcpV4Echo = 1,
+    TcpV6Echo,
+    UdpEcho,
+    TcpHttp,
+    TcpEnvi,
+    Exit,
+};
+
 #endif //EX1_SERVER_HPP

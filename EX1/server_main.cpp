@@ -1,16 +1,5 @@
 #include "server.hpp"
 
-// Subsequent enumerators, if they are not given an explicit value,
-// receive the value of the previous enumerator plus one.
-enum class ServerType: int {
-    TcpV4Echo = 1,
-    TcpV6Echo,
-    UdpEcho,
-    TcpHttp,
-    TcpEnvi,
-    Exit,
-};
-
 int main(int _argc, char *_argv[]) {
     if (_argc < 2) {
         errorExit("Please provide a port as the first argument", PORT_ERROR);
@@ -51,14 +40,14 @@ int main(int _argc, char *_argv[]) {
     // to cast it
     switch (static_cast<ServerType>(inputServerType)) {
         case ServerType::TcpV4Echo: {
-            TcpEchoServer server;
+            TcpEchoServer server(IpAddrKind::V4);
             server.initializeSocket(port);
             server.startRequestHandler();
             break;
         }
         case ServerType::TcpV6Echo: {
-            TcpEchoServer server;
-            server.initializeSocket(port, IpAddrKind::V6);
+            TcpEchoServer server(IpAddrKind::V6);
+            server.initializeSocket(port);
             server.startRequestHandler();
             break;
         }
@@ -71,7 +60,7 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ServerType::TcpEnvi: {
-
+            TcpEnviEchoServer server;
             break;
         }
         case ServerType::Exit:

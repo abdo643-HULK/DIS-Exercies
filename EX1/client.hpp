@@ -7,7 +7,10 @@
 
 #include <iostream>
 #include <cstring>
+#include <limits>
 #include "clients/TcpEchoClient.hpp"
+#include "clients/TcpHttpEchoClient.hpp"
+#include "clients/TcpEnviEchoClient.hpp"
 #include "clients/UdpEchoClient.hpp"
 
 #ifdef _WIN32
@@ -20,13 +23,16 @@
 #include "errors.hpp"
 
 int setupConnection(const Args *_args);
-
-void errorExit(const char *_msg, int _exitCode = -1, int _fd = -1);
-
 Args parseArgs(int _argc, const char *const _args[]);
 
-constexpr auto BUFFER_SIZE = 1024;
-constexpr auto SHUTDOWN = "shutdown";
-constexpr auto QUIT = "quit";
+enum class ClientType: int {
+    TcpV4Echo = 1,
+    TcpV6Echo,
+    UdpEcho,
+    TcpHttp,
+    TcpEnvi,
+    Exit,
+};
+
 
 #endif //EX1_CLIENT_HPP
