@@ -48,7 +48,9 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ClientType::UdpEcho: {
-            UdpEchoClient client;
+            UdpEchoClient client(IpAddrKind::V4);
+            sockaddr_storage serverAddress = client.setupConnection(&args);
+            client.startRequest(&serverAddress);
             break;
         }
         case ClientType::TcpHttp: {

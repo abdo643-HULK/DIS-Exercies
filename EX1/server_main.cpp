@@ -52,7 +52,9 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ServerType::UdpEcho: {
-            UdpEchoServer server;
+            UdpEchoServer server(IpAddrKind::V4);
+            sockaddr_storage serverAddress = server.initializeSocket(port);
+            server.startRequestHandler(&serverAddress);
             break;
         }
         case ServerType::TcpHttp: {
