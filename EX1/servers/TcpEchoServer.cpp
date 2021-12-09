@@ -101,8 +101,12 @@ void *TcpEchoServer::clientCommunication(void *const _parameter) {
         memset(&echoMsg, 0, BUFFER_SIZE);
     }
 
+    delete params;
+
+    cout << "CLOSING CLIENT" << endl;
     shutdown(clientFd, SHUT_RDWR);
     close(clientFd);
+
     server->shutdownServer();
     return nullptr;
 }
@@ -139,53 +143,15 @@ void TcpEchoServer::startRequestHandler() {
 }
 
 void TcpEchoServer::shutdownServer() {
-    cout << "SERVER SHUTTING DOWN" << endl;
-
-    for (unsigned long i: mThreadPool) {
-        i != -1 && pthread_cancel(i);
-    }
-
-    shutdown(mServerFd, SHUT_RDWR);
-    close(mServerFd);
+    cout << "CLOSING SERVER" << endl;
+    shutdown(mServerFd,SHUT_RDWR);
     mShutdown = true;
 }
 
-//TcpEchoServer::~TcpEchoServer() {
-//    cout << "SERVER SHUTTING DOWN" << endl;
-//
-//    for (unsigned long i: mThreadPool) {
-//        i != -1 && pthread_cancel(i);
-//    }
-//
-//    close(mServerFd);
-//}
-
-TcpEchoServer::~TcpEchoServer() = default;
-
-//bool TcpEchoServer::requestHandler(const int _clientFd) {
-//    const auto msgSize = BUFFER_SIZE - 7;
-//    char echoMsg[BUFFER_SIZE] = "\0";
-//    char msg[msgSize] = "\0";
-//
-//    while (true) {
-//        const auto status = recv(_clientFd, msg, BUFFER_SIZE, 0);
-//
-//        if (status == -1) {
-//            printError("NO MSG RECEIVED");
-//            return true;
-//        } else if (status == 0) {
-//            cout << "CLIENT CLOSED" << endl;
-//            return true;
-//        }
-//
-//        if (strcmp(msg, "shutdown") == 0) return false;
-//
-////        strcat((char *) &echoMsg, (char *) &msg);
-//        snprintf(echoMsg, sizeof(echoMsg), "%s%s", "ECHO: ", msg);
-//
-//        send(_clientFd, echoMsg, strlen(echoMsg), 0);
-//
-//        memset(&msg, 0, msgSize);
-//        memset(&echoMsg, 0, BUFFER_SIZE);
-//    }
-//}
+TcpEchoServer::~TcpEchoServer() {
+    cout << "SERVER SHUTTING DOWN" << endl;
+    for (unsigned long i: mThreadPool) {
+        i != -1 && pthread_cancel(i);
+    }
+    close(mServerFd);
+}
