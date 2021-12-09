@@ -7,57 +7,31 @@
 
 #include <iostream>
 #include <cstring>
+#include "shared.hpp"
 #include "../errors.hpp"
 
-
-#ifdef _WIN32
-
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <stdio.h>
-#include <windows.h>
-
-#elif __unix__
-
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <pthread.h>
-
-#include <unistd.h>
-#include <arpa/inet.h>
-#include <semaphore.h>
-
-#endif
-
-enum class IpAddrKind : int {
-    V4 = AF_INET,
-    V6 = AF_INET6
-};
-
-//union IpAddress {
-//    sockaddr_in *addressV4;
-//    sockaddr_in6 *addressV6;
-//};
-
-//struct SocketData {
-//    int port;
-//    sockaddr_storage *const address;
-////    union {
-////        sockaddr_in *addressV4;
-////        sockaddr_in6 *addressV6;
-////    };
-//};
-
-constexpr int BUFFER_SIZE = 1024;
+//#include <thread>
+//const auto PROCESSOR_COUNT = std::thread::hardware_concurrency();
+constexpr auto THREAD_COUNT = 10;
 
 class TcpEchoServer {
 private:
+    struct ClientCommunicationParams {
+        int clientFd;
+        TcpEchoServer *server;
+    };
+
     int mServerFd;
+    pthread_t mThreadPool[THREAD_COUNT];
     const IpAddrKind mIpVersion;
+    bool mShutdown;
 
-    sockaddr *setIp(int _port, sockaddr_storage *const _address);
+    sockaddr *setIp(int _port, sockaddr_storage *_address);
 
-    bool requestHandler(int _clientFd) const;
+//    static bool requestHandler(int _clientFd);
+    static void *clientCommunication(void *_parameter);
+
+    void shutdownServer();
 
 public:
     explicit TcpEchoServer(IpAddrKind _addressKind);

@@ -4,12 +4,6 @@
 
 #include "UdpEchoServer.hpp"
 
-bool printClientInfo(IpAddrKind _ip, const sockaddr_storage *_address);
-
-void errorExit(const char *_msg, int _fd1, int _exitCode = -1);
-
-void printError(const char *_error);
-
 using namespace std;
 
 UdpEchoServer::UdpEchoServer(const IpAddrKind _addressKind) : mServerFd(-1), mIpVersion(_addressKind) {};
@@ -37,16 +31,11 @@ sockaddr *UdpEchoServer::setIp(const int _port, sockaddr_storage *const _data) {
     return reinterpret_cast<sockaddr *>(addr);
 }
 
- sockaddr_storage UdpEchoServer::initializeSocket(const int _port, const int _optval) {
+void UdpEchoServer::initializeSocket(const int _port, const int _optval) {
     mServerFd = socket(static_cast<int>(mIpVersion), SOCK_DGRAM, 0);
 
     if (mServerFd < 0) {
         errorExit("SOCKET ERROR", SOCKET_ERROR);
-    }
-
-    if (setsockopt(mServerFd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *>(&_optval), sizeof(_optval)) <
-        0) {
-        errorExit("SETSOCKOPT ERROR", SOCKET_OPT_ERROR, mServerFd);
     }
 
     sockaddr_storage serverAddress;
@@ -58,14 +47,19 @@ sockaddr *UdpEchoServer::setIp(const int _port, sockaddr_storage *const _data) {
         errorExit("SOCKET BINDING ERROR", SOCKET_BIND_ERROR, mServerFd);
     }
 
-    return serverAddress;
+    if (setsockopt(
+            mServerFd,
+            SOL_SOCKET,
+            SO_REUSEADDR,
+            reinterpret_cast<const char *>(&_optval),
+            sizeof(_optval)) < 0) {
+        errorExit("SETSOCKOPT ERROR", SOCKET_OPT_ERROR, mServerFd);
+    }
 }
 
-
-
-void UdpEchoServer::startRequestHandler(sockaddr_storage *_serverAddress) {
+void UdpEchoServer::startRequestHandler() {
     sockaddr_storage clientAddress;
-    memset (&clientAddress, 0, sizeof(sockaddr_storage));
+    memset(&clientAddress, 0, sizeof(sockaddr_storage));
 
     const auto msgSize = BUFFER_SIZE - 7;
     char echoMsg[BUFFER_SIZE] = "\0";
@@ -73,37 +67,36 @@ void UdpEchoServer::startRequestHandler(sockaddr_storage *_serverAddress) {
 
     const socklen_t size = mIpVersion == IpAddrKind::V4 ? sizeof(sockaddr_in) : sizeof(sockaddr_in6);
 
-    bool active = true;
-    while (active) {
-        const int status = recvfrom(mServerFd, &msg, msgSize, 0,
-                                      reinterpret_cast<sockaddr *>(&clientAddress),
-                                    const_cast<socklen_t *>(&size));
-        if (status == -1) {
-            printError("NO MSG RECEIVED");
-            break;
-        } else if (status == 0) {
-            cout << "CLIENT CLOSED" << endl;
-            break;
-        }
+    while (true) {
+        const auto status = recvfrom(mServerFd,
+                                     &msg,
+                                     msgSize,
+                                     0,
+                                     reinterpret_cast<sockaddr *>(&clientAddress),
+                                     const_cast<socklen_t *>(&size));
 
-        if (!printClientInfo(mIpVersion, &clientAddress)) {
-            break;
-        }
+        if (status == -1) return printError("NO MSG RECEIVED");
 
-        if (strcmp(msg, "shutdown") == 0) {
-            active = false;
-        }
+        if (!printClientInfo(mIpVersion, &clientAddress)) return;
+
+        if (strcmp(msg, "shutdown") == 0) return;
 
         snprintf(echoMsg, sizeof(echoMsg), "%s%s", "ECHO: ", msg);
 
-        sendto(mServerFd, &echoMsg, strlen(echoMsg), 0, reinterpret_cast<sockaddr *>(&clientAddress), size);
+        const auto sendRet = sendto(mServerFd,
+                                    &echoMsg,
+                                    strlen(echoMsg),
+                                    0,
+                                    reinterpret_cast<sockaddr *>(&clientAddress),
+                                    size);
 
-        cout << endl;
+        if (sendRet == -1) return printError("SEND ERROR");
+        memset(&msg, 0, msgSize);
+        memset(&echoMsg, 0, BUFFER_SIZE);
     }
-
-    cout << "SERVER SHUTTING DOWN" << endl;
 }
 
 UdpEchoServer::~UdpEchoServer() {
+    cout << "SERVER SHUTTING DOWN" << endl;
     close(mServerFd);
 }

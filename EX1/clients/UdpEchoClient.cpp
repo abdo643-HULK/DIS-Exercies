@@ -7,7 +7,7 @@
 using namespace std;
 
 UdpEchoClient::UdpEchoClient(const IpAddrKind _addressType) :
-        mIpVersion(_addressType){};
+        mIpVersion(_addressType) {};
 
 sockaddr_storage UdpEchoClient::setupConnection(const Args *const _args) {
     const auto ip = _args->ipAddress;
@@ -33,10 +33,10 @@ sockaddr_storage UdpEchoClient::setupConnection(const Args *const _args) {
         errorExit("INVALID IP-ADDRESS", PORT_ERROR);
     }
 
-    const int clientFd = socket(static_cast<int>(mIpVersion), SOCK_DGRAM, 0);
+    mClientFd = socket(static_cast<int>(mIpVersion), SOCK_DGRAM, 0);
 
-    if (clientFd < 0) {
-        errorExit("ERROR GETTING SOCKET_FD", SOCKET_ERROR, clientFd);
+    if (mClientFd < 0) {
+        errorExit("ERROR GETTING SOCKET_FD", SOCKET_ERROR, mClientFd);
     }
 
     return serverAddress;
@@ -55,17 +55,28 @@ void UdpEchoClient::startRequest(sockaddr_storage *_serverAddress) const {
 
         if (strncmp(msg, QUIT, strlen(QUIT)) == 0) break;
 
-        sendto(mClientFd, &msg, strlen(msg), 0, reinterpret_cast<sockaddr *>(_serverAddress), size);
+        const auto err = sendto(mClientFd,
+               &msg,
+               strlen(msg),
+               0,
+               reinterpret_cast<sockaddr *>(_serverAddress),
+               size);
+
+        if (err == -1) {
+            errorExit("SEND ERROR", -1, mClientFd);
+        }
 
         if (strncmp(msg, SHUTDOWN, strlen(SHUTDOWN)) == 0) break;
 
-        const auto status = recvfrom(mClientFd, &msg, strlen(msg), 0, reinterpret_cast<sockaddr *>(_serverAddress),
+        const auto status = recvfrom(mClientFd,
+                                     &msg,
+                                     BUFFER_SIZE,
+                                     0,
+                                     reinterpret_cast<sockaddr *>(_serverAddress),
                                      const_cast<socklen_t *>(&size));
 
         if (status == -1) {
             errorExit("NO MSG RECEIVED", NO_MSG_ERROR, mClientFd);
-        } else if (status == 0) {
-            errorExit("SERVER CLOSED", SERVER_ERROR, mClientFd);
         }
 
         cout << msg << endl;

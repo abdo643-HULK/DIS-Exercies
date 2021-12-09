@@ -18,6 +18,10 @@
 
 #endif
 
+enum class IpAddrKind : int {
+    V4 = AF_INET,
+    V6 = AF_INET6
+};
 
 // rust types
 typedef uint8_t u8;

@@ -5,6 +5,7 @@
 #ifndef EX1_TCPENVIECHOSERVER_HPP
 #define EX1_TCPENVIECHOSERVER_HPP
 
+#include "shared.hpp"
 
 class TcpEnviEchoServer {
 

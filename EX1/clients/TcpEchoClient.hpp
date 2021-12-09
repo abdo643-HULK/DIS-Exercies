@@ -28,11 +28,6 @@
 
 #endif
 
-enum class IpAddrKind : int {
-    V4 = AF_INET,
-    V6 = AF_INET6
-};
-
 class TcpEchoClient {
     const IpAddrKind mIpVersion;
     const int mClientFd;

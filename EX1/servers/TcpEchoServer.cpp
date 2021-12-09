@@ -4,15 +4,13 @@
 
 #include "TcpEchoServer.hpp"
 
-bool printClientInfo(IpAddrKind _ip, const sockaddr_storage *_address);
-
-void errorExit(const char *_msg, int _fd1, int _exitCode = -1);
-
-void printError(const char *_error);
-
 using namespace std;
 
-TcpEchoServer::TcpEchoServer(const IpAddrKind _addressKind) : mServerFd(-1), mIpVersion(_addressKind) {};
+TcpEchoServer::TcpEchoServer(const IpAddrKind _addressKind) : mServerFd(-1),
+                                                              mIpVersion(_addressKind),
+                                                              mShutdown(false) {
+    memset(mThreadPool, -1, sizeof(mThreadPool));
+}
 
 sockaddr *TcpEchoServer::setIp(const int _port, sockaddr_storage *const _data) {
     if (mIpVersion == IpAddrKind::V6) {
@@ -44,11 +42,6 @@ void TcpEchoServer::initializeSocket(const int _port, const int _optval) {
         errorExit("SOCKET ERROR", SOCKET_ERROR);
     }
 
-    if (setsockopt(mServerFd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *>(&_optval), sizeof(_optval)) <
-        0) {
-        errorExit("SETSOCKOPT ERROR", SOCKET_OPT_ERROR, mServerFd);
-    }
-
     sockaddr_storage serverAddress;
 
     const sockaddr *server = setIp(_port, &serverAddress);
@@ -58,6 +51,14 @@ void TcpEchoServer::initializeSocket(const int _port, const int _optval) {
         errorExit("SOCKET BINDING ERROR", SOCKET_BIND_ERROR, mServerFd);
     }
 
+    if (setsockopt(mServerFd,
+                   SOL_SOCKET,
+                   SO_REUSEADDR,
+                   reinterpret_cast<const char *>(&_optval),
+                   sizeof(_optval)) < 0) {
+        errorExit("SETSOCKOPT ERROR", SOCKET_OPT_ERROR, mServerFd);
+    }
+
     if (listen(mServerFd, 10) < 0) {
         errorExit("SOCKET LISTEN ERROR", SOCKET_LISTEN_ERROR, mServerFd);
     }
@@ -65,112 +66,126 @@ void TcpEchoServer::initializeSocket(const int _port, const int _optval) {
     cout << "Listening..." << endl;
 }
 
-bool TcpEchoServer::requestHandler(const int _clientFd) const {
-    const auto msgSize = BUFFER_SIZE - 7;
+void *TcpEchoServer::clientCommunication(void *const _parameter) {
+    const auto params = (ClientCommunicationParams *) _parameter;
+    const auto clientFd = params->clientFd;
+    const auto server = params->server;
+
+    const auto detachRet = pthread_detach(pthread_self());
+    if (detachRet != 0) {
+        errorExit("ERROR DETACHING THREADS", THREAD_ERROR, clientFd);
+    }
+
     char echoMsg[BUFFER_SIZE] = "\0";
+    const auto msgSize = BUFFER_SIZE - 7;
     char msg[msgSize] = "\0";
 
     while (true) {
-        const auto status = recv(_clientFd, msg, BUFFER_SIZE, 0);
+        const auto status = recv(clientFd, msg, BUFFER_SIZE, 0);
 
         if (status == -1) {
-            printError("NO MSG RECEIVED");
-            return true;
+            errorExit("NO MSG RECEIVED", NO_MSG_ERROR, clientFd);
         } else if (status == 0) {
             cout << "CLIENT CLOSED" << endl;
-            return true;
+            return nullptr;
         }
 
-        if (strcmp(msg, "shutdown") == 0) return false;
+        if (strcmp(msg, "shutdown") == 0) break;
 
-//        strcat((char *) &echoMsg, (char *) &msg);
         snprintf(echoMsg, sizeof(echoMsg), "%s%s", "ECHO: ", msg);
 
-        send(_clientFd, echoMsg, strlen(echoMsg), 0);
+        const auto sendRet = send(clientFd, echoMsg, strlen(echoMsg), 0);
+        if (sendRet == -1) errorExit("ERROR SENDING DATA", THREAD_ERROR, clientFd);
 
         memset(&msg, 0, msgSize);
         memset(&echoMsg, 0, BUFFER_SIZE);
     }
+
+    shutdown(clientFd, SHUT_RDWR);
+    close(clientFd);
+    server->shutdownServer();
+    return nullptr;
 }
 
 void TcpEchoServer::startRequestHandler() {
     sockaddr_storage clientAddress;
-//    memset (&clientAddress, 0, sizeof(sockaddr_storage));
+    memset(&clientAddress, 0, sizeof(sockaddr_storage));
 
     const socklen_t size = mIpVersion == IpAddrKind::V4 ? sizeof(sockaddr_in) : sizeof(sockaddr_in6);
 
-    bool active = true;
-    while (active) {
+    int i = 0;
+
+    while (!mShutdown) {
         const int clientFd = accept(mServerFd,
                                     reinterpret_cast<sockaddr *>(&clientAddress),
                                     const_cast<socklen_t *>(&size));
+
+        if (clientFd == -1) continue;
+
         const bool ret = printClientInfo(mIpVersion, &clientAddress);
+        if (!ret) continue;
 
-        if (ret) {
-            active = requestHandler(clientFd);
+        auto parameter = new ClientCommunicationParams();
+        parameter->clientFd = clientFd;
+        parameter->server = this;
+
+        if (pthread_create(&mThreadPool[i++],
+                           nullptr,
+                           clientCommunication,
+                           parameter) != 0) {
+            printError("ERROR CREATING THREAD");
         }
-
-        cout << endl;
-        close(clientFd);
     }
+}
 
+void TcpEchoServer::shutdownServer() {
     cout << "SERVER SHUTTING DOWN" << endl;
-}
 
-TcpEchoServer::~TcpEchoServer() {
-    close(mServerFd);
-}
-
-void printError(const char *const _error) {
-    cerr << endl;
-    cerr << "<<< " << _error << " >>>" << endl;
-}
-
-bool printClientInfo(const IpAddrKind _ip, const sockaddr_storage *const _address) {
-    char address[48];
-    cout << "Client IP-Address: ";
-
-    switch (_ip) {
-        case IpAddrKind::V4: {
-            const auto addr = reinterpret_cast<const sockaddr_in *const>(_address);
-            const auto ret = inet_ntop(AF_INET,
-                                       &addr->sin_addr,
-                                       address,
-                                       sizeof(sockaddr_in));
-            if (ret == nullptr) {
-                printError("ERROR PARSING CLIENT ADDRESS");
-                return false;
-            }
-
-            cout << address << endl;
-            cout << "Client Port: " << ntohs(addr->sin_port) << endl;
-            break;
-        }
-        case IpAddrKind::V6: {
-            const auto addr = reinterpret_cast<const sockaddr_in6 *const>(_address);
-            const auto ret = inet_ntop(AF_INET6,
-                                       &addr->sin6_addr,
-                                       address,
-                                       sizeof(sockaddr_in6));
-            if (ret == nullptr) {
-                printError("ERROR PARSING CLIENT ADDRESS");
-                return false;
-            }
-
-            cout << address << endl;
-            cout << "Client Port: " << ntohs(addr->sin6_port) << endl;
-            break;
-        }
+    for (unsigned long i: mThreadPool) {
+        i != -1 && pthread_cancel(i);
     }
 
-    cout << endl;
-
-    return true;
+    shutdown(mServerFd, SHUT_RDWR);
+    close(mServerFd);
+    mShutdown = true;
 }
 
-void errorExit(const char *const _msg, const int _fd1, const int _exitCode) {
-    cerr << endl;
-    cerr << "<<< " << _msg << " >>>" << endl;
-    close(_fd1);
-    exit(_exitCode);
-}
+//TcpEchoServer::~TcpEchoServer() {
+//    cout << "SERVER SHUTTING DOWN" << endl;
+//
+//    for (unsigned long i: mThreadPool) {
+//        i != -1 && pthread_cancel(i);
+//    }
+//
+//    close(mServerFd);
+//}
+
+TcpEchoServer::~TcpEchoServer() = default;
+
+//bool TcpEchoServer::requestHandler(const int _clientFd) {
+//    const auto msgSize = BUFFER_SIZE - 7;
+//    char echoMsg[BUFFER_SIZE] = "\0";
+//    char msg[msgSize] = "\0";
+//
+//    while (true) {
+//        const auto status = recv(_clientFd, msg, BUFFER_SIZE, 0);
+//
+//        if (status == -1) {
+//            printError("NO MSG RECEIVED");
+//            return true;
+//        } else if (status == 0) {
+//            cout << "CLIENT CLOSED" << endl;
+//            return true;
+//        }
+//
+//        if (strcmp(msg, "shutdown") == 0) return false;
+//
+////        strcat((char *) &echoMsg, (char *) &msg);
+//        snprintf(echoMsg, sizeof(echoMsg), "%s%s", "ECHO: ", msg);
+//
+//        send(_clientFd, echoMsg, strlen(echoMsg), 0);
+//
+//        memset(&msg, 0, msgSize);
+//        memset(&echoMsg, 0, BUFFER_SIZE);
+//    }
+//}

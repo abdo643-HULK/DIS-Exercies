@@ -53,8 +53,8 @@ int main(int _argc, char *_argv[]) {
         }
         case ServerType::UdpEcho: {
             UdpEchoServer server(IpAddrKind::V4);
-            sockaddr_storage serverAddress = server.initializeSocket(port);
-            server.startRequestHandler(&serverAddress);
+            server.initializeSocket(port);
+            server.startRequestHandler();
             break;
         }
         case ServerType::TcpHttp: {
@@ -71,8 +71,8 @@ int main(int _argc, char *_argv[]) {
 
     return 0;
 }
-
-void errorExit(const char *const _msg, const int _exitCode) {
-    cerr << "\n" << "<<< " << _msg << " >>>" << endl;
-    exit(_exitCode);
-}
+//
+//void errorExit(const char *const _msg, const int _exitCode) {
+//    cerr << "\n" << "<<< " << _msg << " >>>" << endl;
+//    exit(_exitCode);
+//}

@@ -66,6 +66,7 @@ void TcpEchoClient::startRequest() const {
 
         const auto status = recv(mClientFd, msg, BUFFER_SIZE, 0);
 
+
         if (status == -1) {
             errorExit("NO MSG RECEIVED", NO_MSG_ERROR, mClientFd);
         } else if (status == 0) {

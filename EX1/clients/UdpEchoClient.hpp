@@ -9,7 +9,6 @@
 #include <cstring>
 #include "shared.hpp"
 #include "../errors.hpp"
-#include "TcpEchoClient.hpp"
 
 #ifdef _WIN32
 
