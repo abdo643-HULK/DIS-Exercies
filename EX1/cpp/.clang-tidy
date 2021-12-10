@@ -1,0 +1,7 @@
+Checks: '*'
+CheckOptions:
+  - { key: modernize-use-nullptr.NullMacros, value: NULL, CUSTOM_NULL }
+  - { key: readability-identifier-naming.ClassCase, value: CamelCase }
+#  - { key: readability-identifier-naming.MemberPrefix, value: m }
+  - { key: readability-identifier-naming.ParameterCase, value: camelBack }
+  - { key: readability-identifier-naming.ParameterPrefix, value: _ }
