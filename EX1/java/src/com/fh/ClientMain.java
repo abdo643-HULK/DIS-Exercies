@@ -10,9 +10,26 @@ import com.fh.clients.envi.TcpEnviClient;
 import java.io.*;
 import java.util.Scanner;
 
-public class Client_main {
+import static java.lang.Integer.parseInt;
+
+public class ClientMain {
     public static void main(String[] _args) throws IOException {
-        String serverIP = "127.0.0.1";
+
+        if(_args.length < 2) {
+            System.out.println("Please provide a port and an IP-Address");
+            return;
+        }
+
+
+        int port = parseInt(_args[0]);
+        String serverIP = _args[1];
+
+        if(port < 1024 || port > 65353) {
+            System.out.println("Please provide a port in the range of 1024-65353");
+            return;
+        }
+
+
 
         Scanner in = new Scanner(System.in);
 
@@ -31,12 +48,12 @@ public class Client_main {
         switch (inputMenu) {
             case 1 -> {
                 EchoClient echoClient = new EchoClient();
-                echoClient.setupConnection(_args, serverIP);
+                echoClient.setupConnection(port, serverIP);
                 echoClient.startRequest();
             }
             case 2 -> {
                 TcpEnviClient client = new TcpEnviClient();
-                client.setupConnection(_args, serverIP);
+                client.setupConnection(port, serverIP);
                 client.startRequest();
             }
             default -> System.out.println("Closing");

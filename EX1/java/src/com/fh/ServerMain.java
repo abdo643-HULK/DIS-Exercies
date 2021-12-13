@@ -8,7 +8,7 @@ import com.fh.servers.EchoServer;
 
 import java.io.*;
 
-public class Server_main
+public class ServerMain
 {
     public static void main(String[] _args) throws IOException
     {

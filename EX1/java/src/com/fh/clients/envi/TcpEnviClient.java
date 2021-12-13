@@ -14,28 +14,23 @@ import java.util.Scanner;
 
 public class TcpEnviClient implements IEnvService {
 
-    Socket socket = null;
-    PrintWriter out = null;
-    BufferedReader in = null;
-    OutputStream out2 = null;
+    Socket mSocket = null;
+    PrintWriter mOut = null;
+    BufferedReader mIn = null;
 
-    public void setupConnection(String[] _args, String serverIP) {
-        if (_args.length > 0) {
-            serverIP = _args[0];
-        }
+    public void setupConnection(int _port, String _serverIP) {
 
-        System.out.println("Trying to connect to host: " + serverIP + ":3001.");
+        System.out.println("Trying to connect to host: " + _serverIP + ":" + _port);
 
         try {
-            socket = new Socket(serverIP, 3001);
-            out2 = socket.getOutputStream();
-            out = new PrintWriter(socket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            mSocket = new Socket(_serverIP, _port);
+            mOut = new PrintWriter(mSocket.getOutputStream(), true);
+            mIn = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
         } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: " + serverIP);
+            System.err.println("Don't know about host: " + _serverIP);
             System.exit(1);
         } catch (IOException e) {
-            System.err.println("Couldn't get I/O for the connection to: " + serverIP);
+            System.err.println("Couldn't get I/O for the connection to: " + _serverIP);
             System.exit(1);
         }
     }
@@ -73,9 +68,9 @@ public class TcpEnviClient implements IEnvService {
 
         }
 
-        out.close();
+        mOut.close();
         in.close();
-        socket.close();
+        mSocket.close();
 
     }
 
@@ -91,10 +86,8 @@ public class TcpEnviClient implements IEnvService {
     public void getAllSensors() {
         EnvData[] s = requestAll();
 
-        int i = 0;
         for (EnvData str : s) {
             System.out.println("Timestamp: " + str.mTimeStamp + ", Sensor: " + str.mValues[0] + ", Value: " + str.mValues[1]);
-            i += 2;
         }
     }
 
@@ -114,8 +107,8 @@ public class TcpEnviClient implements IEnvService {
 
         try {
 
-            out.printf(endpoint);
-            input = in.readLine();
+            mOut.printf(endpoint);
+            input = mIn.readLine();
 
             if (Objects.equals(input, "NOT FOUND")) {
                 System.err.println("ERROR FETCHING ENV DATA");
@@ -132,11 +125,11 @@ public class TcpEnviClient implements IEnvService {
 
     @Override
     public EnvData requestEnvironmentData(String _type) {
-        out.println(_type);
+        mOut.println(_type);
         EnvData envData = null;
 
         try {
-            String input = in.readLine();
+            String input = mIn.readLine();
 
             if (Objects.equals(input, "NOT FOUND")) {
                 System.err.println("ERROR FETCHING ENV DATA");
@@ -159,13 +152,13 @@ public class TcpEnviClient implements IEnvService {
     @Override
     public EnvData[] requestAll() {
         String endpoint = "GET_ALL";
-        out.println(endpoint);
+        mOut.println(endpoint);
 
-        String input = "";
+        String input;
         EnvData[] envData = new EnvData[0];
 
         try {
-            input = in.readLine();
+            input = mIn.readLine();
             String[] s = input.split("\\|");
 
             if (Objects.equals(input, "NOT FOUND")) {
