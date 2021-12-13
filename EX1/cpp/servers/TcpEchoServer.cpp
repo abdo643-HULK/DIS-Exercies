@@ -87,6 +87,7 @@ void *TcpEchoServer::clientCommunication(void *const _parameter) {
             errorExit("NO MSG RECEIVED", NO_MSG_ERROR, clientFd);
         } else if (status == 0) {
             cout << "CLIENT CLOSED" << endl;
+            close(clientFd);
             return nullptr;
         }
 

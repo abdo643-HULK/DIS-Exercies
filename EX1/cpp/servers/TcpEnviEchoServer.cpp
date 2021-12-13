@@ -4,9 +4,76 @@
 
 #include "TcpEnviEchoServer.hpp"
 
-#include <cstring>
-
 using namespace std;
+
+const unordered_map<string, routerCb> ROUTER{
+        {"GET_SENSOR_TYPES", [](const string &_req) {
+            cout << "GET_SENSOR_TYPES" << endl;
+            string data;
+            for (const auto i: SENSOR_TYPES) {
+                data += i;
+                data += ';';
+            }
+            return data;
+        }},
+        {"GET_ALL",          [](const string &_req) {
+            cout << "GET_ALL" << endl;
+            std::random_device dev;
+            std::mt19937 rng(dev());
+            std::uniform_int_distribution<u32> value(1, 100);
+            std::uniform_int_distribution<u32> dist3(0, 2);
+
+            string data;
+            data.reserve(BUFFER_SIZE);
+
+            const auto timestamp = chrono::seconds(time(nullptr)).count();
+            data += to_string(timestamp) + "|";
+
+            const auto count = SENSOR_TYPES->length();
+            constexpr auto dataDelimiter = '|';
+            constexpr auto keyValDelimiter = ';';
+
+            for (int i = 0; i < count - 1; ++i) {
+                data.append(SENSOR_TYPES[i]);
+                data += keyValDelimiter + to_string(value(rng)) + dataDelimiter;
+            }
+
+            return data;
+        }},
+        {"light",            [](const string &_req) {
+            cout << "light" << endl;
+            return createSensorData(_req, 1);
+        }},
+        {"noise",            [](const string &_req) {
+            cout << "noise" << endl;
+            return createSensorData(_req, 1);
+        }},
+        {"air",              [](const string &_req) {
+            cout << "air" << endl;
+            return createSensorData(_req, 3);
+        }},
+};
+
+string createSensorData(const string &_sensorType, const int _dataCount) {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<u32> value(1, 100);
+    std::uniform_int_distribution<u32> dist(1, _dataCount);
+
+    string data;
+    data.reserve(BUFFER_SIZE);
+
+    const auto timestamp = chrono::seconds(time(nullptr)).count();
+    data += to_string(timestamp) + "|";
+
+
+    const auto count = dist(rng);
+    for (int i = 0; i < count; ++i) {
+        data += to_string(value(rng)) + ';';
+    }
+
+    return data;
+}
 
 TcpEnviEchoServer::TcpEnviEchoServer() : mServerFd(-1),
                                          mIpVersion(IpAddrKind::V4),
@@ -78,38 +145,33 @@ void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
         errorExit("ERROR DETACHING THREADS", THREAD_ERROR, clientFd);
     }
 
-    char echoMsg[BUFFER_SIZE] = "\0";
-    const auto msgSize = BUFFER_SIZE - 7;
-    char msg[msgSize] = "\0";
+    char route[BUFFER_SIZE] = "\0";
 
     while (true) {
-        const auto status = recv(clientFd, msg, BUFFER_SIZE, 0);
+        const auto status = recv(clientFd, route, BUFFER_SIZE, 0);
 
         if (status == -1) {
             errorExit("NO MSG RECEIVED", NO_MSG_ERROR, clientFd);
         } else if (status == 0) {
             cout << "CLIENT CLOSED" << endl;
-            return nullptr;
+            break;
         }
 
-        if (strcmp(msg, "shutdown") == 0) break;
+        const auto cb = ROUTER.find(route);
+        const auto data = cb != ROUTER.end() ? cb->second(route) : "NOT FOUND";
 
-        snprintf(echoMsg, sizeof(echoMsg), "%s%s", "ECHO: ", msg);
-
-        const auto sendRet = send(clientFd, echoMsg, strlen(echoMsg), 0);
+        const auto sendRet = send(clientFd, data.c_str(), data.length(), 0);
         if (sendRet == -1) errorExit("ERROR SENDING DATA", THREAD_ERROR, clientFd);
 
-        memset(&msg, 0, msgSize);
-        memset(&echoMsg, 0, BUFFER_SIZE);
+        memset(&route, 0, BUFFER_SIZE);
     }
-
-    delete params;
 
     cout << "CLOSING CLIENT" << endl;
     shutdown(clientFd, SHUT_RDWR);
     close(clientFd);
 
-    server->shutdownServer();
+    delete params;
+
     return nullptr;
 }
 
@@ -144,16 +206,11 @@ void TcpEnviEchoServer::startRequestHandler() {
     }
 }
 
-void TcpEnviEchoServer::shutdownServer() {
-    cout << "CLOSING SERVER" << endl;
-    shutdown(mServerFd, SHUT_RDWR);
-    mShutdown = true;
-}
-
 TcpEnviEchoServer::~TcpEnviEchoServer() {
     cout << "SERVER SHUTTING DOWN" << endl;
     for (unsigned long i: mThreadPool) {
         i != -1 && pthread_cancel(i);
     }
+    shutdown(mServerFd, SHUT_RDWR);
     close(mServerFd);
 }

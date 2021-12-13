@@ -69,6 +69,8 @@ int main(int _argc, char *_argv[]) {
         }
         case ServerType::TcpEnvi: {
             TcpEnviEchoServer server;
+            server.initializeSocket(port);
+            server.startRequestHandler();
             break;
         }
         case ServerType::Exit:

@@ -18,5 +18,6 @@ constexpr auto NO_MSG_ERROR = 7;
 constexpr auto CLIENT_ERROR = 8;
 constexpr auto SERVER_ERROR = 9;
 constexpr auto THREAD_ERROR = 10;
+constexpr auto FETCH_ERROR = 11;
 
 #endif //EX1_ERRORS_HPP

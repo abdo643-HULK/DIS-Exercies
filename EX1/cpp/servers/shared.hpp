@@ -9,14 +9,16 @@
 #include "../errors.hpp"
 
 #ifdef _WIN32
-
+extern "C" {
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <stdio.h>
 #include <windows.h>
+}
 
 #elif __unix__
 
+extern "C" {
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <pthread.h>
@@ -24,6 +26,8 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <semaphore.h>
+}
+
 
 #endif
 
@@ -49,6 +53,17 @@ enum class IpAddrKind : int {
 //};
 
 constexpr int BUFFER_SIZE = 1024;
+
+// rust types
+typedef uint8_t u8;
+typedef uint16_t u16;
+typedef uint32_t u32;
+typedef uint64_t u64;
+
+typedef int8_t i8;
+typedef int16_t i16;
+typedef int32_t i32;
+typedef int64_t i64;
 
 bool printClientInfo(IpAddrKind _ip, const sockaddr_storage *_address);
 

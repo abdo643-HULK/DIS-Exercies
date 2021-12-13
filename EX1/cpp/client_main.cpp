@@ -58,7 +58,8 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ClientType::TcpEnvi: {
-            TcpEnviEchoClient client;
+            TcpEnviEchoClient client(&args,IpAddrKind::V4);
+            client.startRequest();
             break;
         }
         case ClientType::Exit:
