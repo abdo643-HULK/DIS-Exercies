@@ -157,8 +157,10 @@ void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
             break;
         }
 
+        route[strcspn(route, "\r\n")] = 0;
+
         const auto cb = ROUTER.find(route);
-        const auto data = cb != ROUTER.end() ? cb->second(route) : "NOT FOUND";
+        const auto data = cb != ROUTER.end() ? (cb->second(route) += "\n") : "NOT FOUND\n";
 
         const auto sendRet = send(clientFd, data.c_str(), data.length(), 0);
         if (sendRet == -1) errorExit("ERROR SENDING DATA", THREAD_ERROR, clientFd);

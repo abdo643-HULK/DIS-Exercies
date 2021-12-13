@@ -93,7 +93,7 @@ void TcpEnviEchoClient::startRequest() const {
             }
             case GetSensorData: {
                 string sensortype;
-                cout << "Please provide the sensortype: ";
+                cout << "Please provide the sensor type: ";
                 cin >> sensortype;
                 getSensor(sensortype);
                 break;

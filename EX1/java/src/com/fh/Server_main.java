@@ -4,19 +4,18 @@
 
 package com.fh;
 
-import java.net.*;
+import com.fh.servers.EchoServer;
+
 import java.io.*;
 
 public class Server_main
 {
-    public static void main(String[] args) throws IOException
+    public static void main(String[] _args) throws IOException
     {
         int _port = 3001;
 
         EchoServer echoServer = new EchoServer();
-        echoServer.initializeSocker(_port);
+        echoServer.initializeSocket(_port);
         echoServer.communication();
-
-
     }
 }

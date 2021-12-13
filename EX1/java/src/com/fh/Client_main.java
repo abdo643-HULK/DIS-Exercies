@@ -4,51 +4,44 @@
 
 package com.fh;
 
+import com.fh.clients.echo.EchoClient;
+import com.fh.clients.envi.TcpEnviClient;
+
 import java.io.*;
-import java.net.*;
 import java.util.Scanner;
 
 public class Client_main {
-    public static void main(String[] args) throws IOException {
-
+    public static void main(String[] _args) throws IOException {
         String serverIP = "127.0.0.1";
 
         Scanner in = new Scanner(System.in);
-        int inputMenu = 0;
 
-        while(true) {
-            do {
+        int inputMenu;
+        do {
 
-                System.out.println("Choose server type:");
-                System.out.println("------------------------:");
-                System.out.println("1. Echo Server:");
-                System.out.println("2. Envi Client:");
-                System.out.println("------------------------:");
+            System.out.println("Choose server type:");
+            System.out.println("------------------------:");
+            System.out.println("1. Echo Server:");
+            System.out.println("2. Envi Client:");
+            System.out.println("------------------------:");
 
-                inputMenu = in.nextInt();
+            inputMenu = in.nextInt();
+        } while (inputMenu < 1 || inputMenu > 2);
 
-
-
-            } while (inputMenu != 1 || inputMenu != 2);
-
-            switch(inputMenu) {
-                case 1:
-                    EchoClient echoClient = new EchoClient();
-                    echoClient.setupConnection(args, serverIP);
-                    echoClient.startRequest();
-                    break;
-                case 2:
-
-                    break;
-                default:
-                    break;
+        switch (inputMenu) {
+            case 1 -> {
+                EchoClient echoClient = new EchoClient();
+                echoClient.setupConnection(_args, serverIP);
+                echoClient.startRequest();
             }
-
+            case 2 -> {
+                TcpEnviClient client = new TcpEnviClient();
+                client.setupConnection(_args, serverIP);
+                client.startRequest();
+            }
+            default -> System.out.println("Closing");
         }
 
-
-
-
-
+        in.close();
     }
 }
