@@ -9,8 +9,6 @@ int main(int _argc, char *_argv[]) {
         errorExit("Please provide a port as the first argument", PORT_ERROR);
     }
 
-//    cout << numeric_limits<byte>::min << "\n";
-
     const int port = atoi(_argv[1]);
 
     if (port < 1024 || port > 65353) {

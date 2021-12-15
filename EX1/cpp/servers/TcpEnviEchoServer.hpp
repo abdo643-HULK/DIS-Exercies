@@ -17,7 +17,16 @@
 
 typedef std::function<std::string(const std::string &)> routerCb;
 
-constexpr std::string_view SENSOR_TYPES[] = {"air", "light", "noise"};
+struct Sensor {
+    const char *const type;
+    u8 amount;
+};
+
+constexpr Sensor SENSORS[3] = {
+        {"air",   1},
+        {"light", 1},
+        {"noise", 3}
+};
 
 class TcpEnviEchoServer {
     struct ClientCommunicationParams {

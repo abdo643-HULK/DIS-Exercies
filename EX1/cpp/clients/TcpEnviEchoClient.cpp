@@ -110,7 +110,7 @@ void TcpEnviEchoClient::startRequest() const {
 
 
 void TcpEnviEchoClient::getSensortypes() const {
-    constexpr auto endpoint = "GET_SENSOR_TYPES";
+    constexpr auto endpoint = "getSensortypes()#";
 
     const int sendStatus = send(mClientFd, endpoint, strlen(endpoint), 0);
 
@@ -149,8 +149,14 @@ void TcpEnviEchoClient::getSensortypes() const {
     cout << endl;
 }
 
+/**
+ * Gets the respective data of the sensortype from the server and displays it
+ *
+ * @param _sensortype a string that is either "air", "light" or "noise"
+ */
 void TcpEnviEchoClient::getSensor(const std::string &_sensortype) const {
-    const int sendStatus = send(mClientFd, _sensortype.c_str(), _sensortype.length(), 0);
+    const string endpoint = "getSensor(" + _sensortype + ")#";
+    const int sendStatus = send(mClientFd, endpoint.c_str(), endpoint.length(), 0);
 
     if (sendStatus == -1) {
         errorExit("ERROR FETCHING SENSOR Data", FETCH_ERROR, mClientFd);
@@ -163,6 +169,11 @@ void TcpEnviEchoClient::getSensor(const std::string &_sensortype) const {
         errorExit("NO MSG RECEIVED", NO_MSG_ERROR, mClientFd);
     } else if (status == 0) {
         errorExit("SERVER CLOSED", SERVER_ERROR, mClientFd);
+    }
+
+    if (msg == "NOT FOUND") {
+        cout << msg << endl;
+        return;
     }
 
     const auto timestampEnd = msg.find('|');
@@ -189,7 +200,7 @@ void TcpEnviEchoClient::getSensor(const std::string &_sensortype) const {
 }
 
 void TcpEnviEchoClient::getAllSensors() const {
-    constexpr auto endpoint = "GET_ALL";
+    constexpr auto endpoint = "getAllSensors()#";
     const int sendStatus = send(mClientFd, endpoint, strlen(endpoint), 0);
 
     if (sendStatus == -1) {
@@ -216,13 +227,23 @@ void TcpEnviEchoClient::getAllSensors() const {
     size_t pos;
     const auto keyValDelimiter = ';';
     while ((pos = msg.find(dataDelimiter)) != string::npos) {
-        size_t valPos;
-        const auto data = msg.substr(0, pos);
 
+        auto data = msg.substr(0, pos);
+
+        size_t valPos;
         if ((valPos = data.find(keyValDelimiter)) != string::npos) {
             const auto sensor = data.substr(0, valPos);
-            const auto value = data.substr(valPos + 1, data.length());
-            sensorTable.push_back("Sensor: " + sensor += " - Value: " + value);
+
+            sensorTable.push_back("Sensor: " + sensor );
+            data.erase(0, sensor.length() + 1);
+
+
+            while ((valPos = data.find(keyValDelimiter)) != string::npos) {
+                sensorTable.push_back(" - Value: " + data.substr(0, valPos));
+                data.erase(0, valPos + 1);
+            }
+
+            sensorTable.push_back(" - Value: " + data);
         }
 
         msg.erase(0, pos + 1);
