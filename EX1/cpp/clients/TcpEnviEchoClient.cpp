@@ -193,7 +193,7 @@ void TcpEnviEchoClient::getSensor(const std::string &_sensortype) const {
     cout << "Time: " << timestamp << endl;
 
     for (const auto &str: sensortypes) {
-        cout << "Value: " << str << endl;
+        cout << " - Value: " << str << endl;
     }
 
     cout << endl;

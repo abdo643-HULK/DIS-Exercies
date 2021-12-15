@@ -8,7 +8,6 @@ using namespace std;
 
 const unordered_map<string, routerCb> ROUTER{
         {"getSensortypes()#", [](const string &_req) {
-            cout << "GET_SENSOR_TYPES" << endl;
             string data;
             for (const auto i: SENSORS) {
                 data += i.type;
@@ -17,7 +16,6 @@ const unordered_map<string, routerCb> ROUTER{
             return data += '#';
         }},
         {"getAllSensors()#",  [](const string &_req) {
-            cout << "GET_ALL" << endl;
             std::random_device dev;
             std::mt19937 rng(dev());
             std::uniform_int_distribution<u32> value(1, 100);
@@ -30,7 +28,6 @@ const unordered_map<string, routerCb> ROUTER{
 
             constexpr auto dataDelimiter = '|';
             constexpr auto keyValDelimiter = ';';
-            const auto count = sizeof(SENSORS) / sizeof(Sensor);
 
             for (auto i : SENSORS) {
                 data.append(i.type);
@@ -45,15 +42,12 @@ const unordered_map<string, routerCb> ROUTER{
             return data += '#';
         }},
         {"getSensor(light)#", [](const string &_req) {
-            cout << "light" << endl;
             return createSensorData(_req, 1) += '#';
         }},
         {"getSensor(noise)#", [](const string &_req) {
-            cout << "noise" << endl;
             return createSensorData(_req, 1) += '#';
         }},
         {"getSensor(air)#",   [](const string &_req) {
-            cout << "air" << endl;
             return createSensorData(_req, 3) += '#';
         }},
 };
@@ -178,7 +172,7 @@ void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
     return nullptr;
 }
 
-void TcpEnviEchoServer::startRequestHandler() {
+[[noreturn]] void TcpEnviEchoServer::startRequestHandler() {
     sockaddr_storage clientAddress;
     memset(&clientAddress, 0, sizeof(sockaddr_storage));
 
@@ -186,12 +180,15 @@ void TcpEnviEchoServer::startRequestHandler() {
 
     int i = 0;
 
-    while (!mShutdown) {
+    while (true) {
         const int clientFd = accept(mServerFd,
                                     reinterpret_cast<sockaddr *>(&clientAddress),
                                     const_cast<socklen_t *>(&size));
 
-        if (clientFd == -1) continue;
+        if (clientFd == -1) {
+            printError("ERROR ACCEPTING CLIENT");
+            continue;
+        };
 
         const bool ret = printClientInfo(mIpVersion, &clientAddress);
         if (!ret) continue;

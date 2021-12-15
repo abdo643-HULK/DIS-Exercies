@@ -5,10 +5,9 @@ package com.fh.clients.envi;
  */
 public interface IEnvService {
 	/**
-	 * requests the sensor type
-	 * @return the sensor type
+	 * @return all sensor types available on the server
 	 */
-    String[] requestEnvironmentDataTypes();
+	String[] requestEnvironmentDataTypes();
 
 	/**
 	 * requests the sensor data from a specific sensor type
