@@ -12,7 +12,17 @@ import java.util.Scanner;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * The ClienMaint simply contains a main method
+ * where the Client side will be executed.
+ */
 public class ClientMain {
+    /**
+     * @param _args contains the server IP address and server port
+     * @throws IOException
+     *
+     * main method for executing Client side.
+     */
     public static void main(String[] _args) throws IOException {
 
         if(_args.length < 2) {

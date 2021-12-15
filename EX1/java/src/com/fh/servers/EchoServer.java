@@ -11,10 +11,20 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * The EchoServer class waits for a message
+ * and replies with the input after receiving one
+ */
 public class EchoServer {
     ServerSocket mServerSocket = null;
     Socket mClientSocket = null;
 
+    /**
+     * initializeSocket() waits on the server side
+     * for a connection to be established
+     *
+     * @param _port contains the port of the server
+     */
     public void initializeSocket(int _port) {
         try {
             mServerSocket = new ServerSocket(_port);
@@ -36,6 +46,12 @@ public class EchoServer {
         System.out.println("Connection successful");
     }
 
+    /**
+     * communication() waits for a message
+     * and replies with the input after receiving a message.
+     *
+     * @throws IOException
+     */
     public void communication() throws IOException {
         System.out.println("Waiting for input.....");
 

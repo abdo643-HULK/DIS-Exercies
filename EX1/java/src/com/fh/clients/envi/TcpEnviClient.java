@@ -11,13 +11,22 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
-
+/**
+ * The TcpEnviClient class implements the interface IEnvService, trys to connect to the C++ EnviServer
+ * and to establish a communication with the C++ EnviServer.
+ */
 public class TcpEnviClient implements IEnvService {
 
     Socket mSocket = null;
     PrintWriter mOut = null;
     BufferedReader mIn = null;
 
+    /**
+     * setupConnection() trys to connect to the server.
+     *
+     * @param _port contains the port of the server
+     * @param _serverIP contains the IP address of the server
+     */
     public void setupConnection(int _port, String _serverIP) {
 
         System.out.println("Trying to connect to host: " + _serverIP + ":" + _port);
@@ -35,6 +44,11 @@ public class TcpEnviClient implements IEnvService {
         }
     }
 
+    /**
+     * startRequest() sends messages to the server.
+     *
+     * @throws IOException
+     */
     public void startRequest() throws IOException {
         Scanner in = new Scanner(System.in);
         int inputMenu;
@@ -74,6 +88,9 @@ public class TcpEnviClient implements IEnvService {
 
     }
 
+    /**
+     * getSensorType() sends a request for all available sensor types and prints the received data.
+     */
     public void getSensorType() {
         String[] s = requestEnvironmentDataTypes();
 
@@ -83,6 +100,9 @@ public class TcpEnviClient implements IEnvService {
 
     }
 
+    /**
+     * getAllSensor() sends a request for all available sensor values and prints the received data.
+     */
     public void getAllSensors() {
         EnvData[] s = requestAll();
 
@@ -91,6 +111,11 @@ public class TcpEnviClient implements IEnvService {
         }
     }
 
+    /**
+     * getSensor() sends a request for a concret sensor values and prints the received data.
+     *
+     * @param _type concrete type of sensor.
+     */
     public void getSensor(String _type) {
         EnvData s = requestEnvironmentData(_type);
 

@@ -7,13 +7,21 @@ package com.fh.clients.echo;
 import java.io.*;
 import java.net.*;
 
-
+/**
+ * The EchoClient class trys to connect to the server
+ * and trys to communicate with the server
+ */
 public class EchoClient {
     Socket mEchoSocket = null;
     PrintWriter mOut = null;
     BufferedReader mIn = null;
 
-
+    /**
+     * setupConnection() trys to connect to the server.
+     *
+     * @param _port contains the port of the server
+     * @param _serverIP contains the IP address of the server
+     */
     public void setupConnection(int _port, String _serverIP) {
 
         System.out.println("Trying to connect to host: " + _serverIP + ":" + _port);
@@ -31,6 +39,11 @@ public class EchoClient {
         }
     }
 
+    /**
+     * startRequest() sends messages to the server.
+     *
+     * @throws IOException
+     */
     public void startRequest() throws IOException {
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
