@@ -7,10 +7,12 @@ package com.fh.clients.echo;
 import java.io.*;
 import java.net.*;
 
+
 public class EchoClient {
     Socket mEchoSocket = null;
     PrintWriter mOut = null;
     BufferedReader mIn = null;
+
 
     public void setupConnection(int _port, String _serverIP) {
 
