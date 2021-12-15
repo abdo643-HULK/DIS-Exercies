@@ -31,6 +31,9 @@ extern "C" {
 
 #endif
 
+/**
+ * The amount of available Threads
+ */
 constexpr auto THREAD_COUNT = 10;
 
 enum class IpAddrKind : int {

@@ -4,6 +4,13 @@
 
 using namespace std;
 
+/**
+ * Asks the user which server they want to use and starts it.
+ *
+ * @param _argc the size of `_args` passed
+ * @param _argv the arguments passed to the program
+ * @return
+ */
 int main(int _argc, char *_argv[]) {
     if (_argc < 2) {
         errorExit("Please provide a port as the first argument", PORT_ERROR);
@@ -62,7 +69,8 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ServerType::TcpHttp: {
-            TcpHttpEchoServer server;
+//            TcpHttpEchoServer server;
+            cout << "Not implemented yet" << endl;
             break;
         }
         case ServerType::TcpEnvi: {

@@ -17,28 +17,60 @@
 
 typedef std::function<std::string(const std::string &)> routerCb;
 
+/**
+ * A struct for to represent the available sensors
+ */
 struct Sensor {
     const char *const type;
     u8 amount;
 };
 
+/**
+ * All available sensors and the amount of values they provide
+ */
 constexpr Sensor SENSORS[3] = {
         {"air",   1},
         {"light", 1},
         {"noise", 3}
 };
 
+/**
+ * The Server allows to communications over TCP with
+ * either IPv4 or IPv6.
+ * The Server also supports multithreading and provides
+ * the client with Information about the Sensors
+ */
 class TcpEnviEchoServer {
+    /**
+     * The struct is only here to provide the
+     * thread with the needed parameters
+     */
     struct ClientCommunicationParams {
         int clientFd;
-        TcpEnviEchoServer *server;
     };
 
+    /**
+     * Holds the Server file descriptor from the socket function
+     */
     int mServerFd;
-    pthread_t mThreadPool[THREAD_COUNT];
-    const IpAddrKind mIpVersion;
-    bool mShutdown;
 
+    /**
+     * Holds the created Threads
+     */
+    pthread_t mThreadPool[THREAD_COUNT];
+
+    /**
+     * The selected Ip-Version
+     */
+    const IpAddrKind mIpVersion;
+
+    /**
+     *
+     *
+     * @param _port
+     * @param _address
+     * @return
+     */
     sockaddr *setIp(int _port, sockaddr_storage *_address);
 
     static void *clientCommunication(void *_parameter);

@@ -133,7 +133,6 @@ void TcpEnviEchoServer::initializeSocket(const int _port, const int _optval) {
 void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
     const auto params = (ClientCommunicationParams *) _parameter;
     const auto clientFd = params->clientFd;
-    const auto server = params->server;
 
     const auto detachRet = pthread_detach(pthread_self());
     if (detachRet != 0) {
@@ -195,7 +194,6 @@ void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
 
         auto parameter = new ClientCommunicationParams();
         parameter->clientFd = clientFd;
-        parameter->server = this;
 
         if (pthread_create(&mThreadPool[i++],
                            nullptr,
