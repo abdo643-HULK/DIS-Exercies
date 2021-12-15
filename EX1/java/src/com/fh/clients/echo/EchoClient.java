@@ -12,8 +12,17 @@ import java.net.*;
  * and trys to communicate with the server
  */
 public class EchoClient {
+	/**
+	 * mEchoSocket contains the client socket
+	 */
 	Socket mEchoSocket = null;
+	/**
+	 * mOut contains the outputstream that sends data to the server
+	 */
 	PrintWriter mOut = null;
+	/**
+	 * mIn contains the inputstream that receives data from the server
+	 */
 	BufferedReader mIn = null;
 
     /**

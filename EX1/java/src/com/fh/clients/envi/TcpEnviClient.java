@@ -16,8 +16,17 @@ import java.util.Scanner;
  * and to establish a communication with the C++ EnviServer.
  */
 public class TcpEnviClient implements IEnvService {
+	/**
+	 * mSocket contains the Enviclient socket.
+	 */
 	Socket mSocket = null;
+	/**
+	 * mOut contains the outputstream that sends data to the server
+	 */
 	PrintWriter mOut = null;
+	/**
+	 * mIn contains the inputstream that receives data from the server
+	 */
 	BufferedReader mIn = null;
 
     /**

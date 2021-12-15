@@ -16,7 +16,13 @@ import java.net.Socket;
  * and replies with the input after receiving one
  */
 public class EchoServer {
+	/**
+	 * mServersocket contains the server socket
+	 */
     ServerSocket mServerSocket = null;
+	/**
+	 * mClientSocket contains the client socket
+	 */
     Socket mClientSocket = null;
 
     /**
