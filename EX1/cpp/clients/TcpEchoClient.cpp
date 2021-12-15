@@ -6,9 +6,11 @@
 
 using namespace std;
 
+
 TcpEchoClient::TcpEchoClient(const Args *const _args, const IpAddrKind _addressType) :
         mIpVersion(_addressType),
         mClientFd(setupConnection(_args)) {}
+
 
 int TcpEchoClient::setupConnection(const Args *const _args) {
     const auto ip = _args->ipAddress;

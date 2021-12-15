@@ -28,25 +28,43 @@
 
 #endif
 
-/*enum class IpAddrKind : int {
-    V4 = AF_INET,
-    V6 = AF_INET6
-};*/
-
 class UdpEchoClient {
+    /**
+     * contains the IP address type.
+     */
     const IpAddrKind mIpVersion;
+    /**
+     * contains the client file descriptor.
+     */
     int mClientFd{};
 
 private:
 
 
 public:
+    /**
+     * trys to connect to the server.
+     * @param _args contains IP address
+     * @return the server address
+     */
     sockaddr_storage setupConnection(const Args *_args);
 
+
+    /**
+     * constructor for the UdpEchoClient class.
+     * @param _addressType contains the IP address type
+     */
     explicit UdpEchoClient(IpAddrKind _addressType);
 
+    /**
+     * sends messages to the server.
+     * @param _serverAddress contains the server address
+     */
     void startRequest(sockaddr_storage *_serverAddress) const;
 
+    /**
+     * destructor to close client field descriptor.
+     */
     ~UdpEchoClient();
 };
 

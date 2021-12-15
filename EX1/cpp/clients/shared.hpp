@@ -20,6 +20,9 @@
 
 #endif
 
+/**
+ * enum for the address type
+ */
 enum class IpAddrKind : int {
     V4 = AF_INET,
     V6 = AF_INET6
@@ -39,6 +42,12 @@ constexpr u16 BUFFER_SIZE = 1024;
 constexpr auto SHUTDOWN = "shutdown";
 constexpr auto QUIT = "quit";
 
+/**
+ * prints error message
+ * @param _msg the error message
+ * @param _exitCode exit code of the error
+ * @param _fd file descriptor to close
+ */
 void errorExit(const char *_msg, int _exitCode = -1, int _fd = -1);
 
 #endif //EX1_SHARED_HPP
