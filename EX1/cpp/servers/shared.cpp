@@ -6,11 +6,6 @@
 
 using namespace std;
 
-void printError(const char *const _error) {
-    cerr << endl;
-    cerr << "<<< " << _error << " >>>" << endl;
-}
-
 bool printClientInfo(const IpAddrKind _ip, const sockaddr_storage *const _address) {
     char address[48];
     cout << "NEW CLIENT: " << endl;
@@ -52,11 +47,4 @@ bool printClientInfo(const IpAddrKind _ip, const sockaddr_storage *const _addres
     cout << endl;
 
     return true;
-}
-
-void errorExit(const char *const _msg, const int _exitCode, const int _fd1) {
-    cerr << endl;
-    cerr << "<<< " << _msg << " >>>" << endl;
-    _fd1 != -1 && close(_fd1);
-    exit(_exitCode);
 }

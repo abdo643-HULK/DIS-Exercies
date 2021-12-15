@@ -60,12 +60,12 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ClientType::TcpHttp: {
-//            TcpHttpEchoClient client;
+//            TcpHttpClient client;
             cout << "Not implemented yet" << endl;
             break;
         }
         case ClientType::TcpEnvi: {
-            TcpEnviEchoClient client(&args,IpAddrKind::V4);
+            TcpEnviClient client(&args, IpAddrKind::V4);
             client.startRequest();
             break;
         }
@@ -76,14 +76,6 @@ int main(int _argc, char *_argv[]) {
     return 0;
 }
 
-
-/**
- * Parses the args to get the Port and Ip-Address of the Server
- *
- * @param _argc the size of `_args` passed
- * @param _args the arguments passed to the program
- * @return The parsed port and address in a struct
- */
 Args parseArgs(const int _argc, const char *const _args[]) {
     if (_argc != 3) {
         errorExit("Please provide a port as the first argument and IP as the second", 2);

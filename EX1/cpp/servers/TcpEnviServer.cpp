@@ -2,7 +2,7 @@
 // Created by abous on 02/12/2021.
 //
 
-#include "TcpEnviEchoServer.hpp"
+#include "TcpEnviServer.hpp"
 
 using namespace std;
 
@@ -29,7 +29,7 @@ const unordered_map<string, routerCb> ROUTER{
             constexpr auto dataDelimiter = '|';
             constexpr auto keyValDelimiter = ';';
 
-            for (auto i : SENSORS) {
+            for (auto i: SENSORS) {
                 data.append(i.type);
 
                 for (int j = 0; j < i.amount; ++j) {
@@ -70,13 +70,12 @@ string createSensorData(const string &_sensorType, const int _dataCount) {
     return data;
 }
 
-TcpEnviEchoServer::TcpEnviEchoServer() : mServerFd(-1),
-                                         mIpVersion(IpAddrKind::V4),
-                                         mShutdown(false) {
+TcpEnviServer::TcpEnviServer() : mServerFd(-1),
+                                 mIpVersion(IpAddrKind::V4) {
     memset(mThreadPool, -1, sizeof(mThreadPool));
 }
 
-sockaddr *TcpEnviEchoServer::setIp(const int _port, sockaddr_storage *const _data) {
+sockaddr *TcpEnviServer::setIp(const int _port, sockaddr_storage *const _data) {
     if (mIpVersion == IpAddrKind::V6) {
         const auto addr = reinterpret_cast<sockaddr_in6 *const>(_data);
         memset(addr, 0, sizeof(sockaddr_in6));
@@ -99,7 +98,7 @@ sockaddr *TcpEnviEchoServer::setIp(const int _port, sockaddr_storage *const _dat
     return reinterpret_cast<sockaddr *>(addr);
 }
 
-void TcpEnviEchoServer::initializeSocket(const int _port, const int _optval) {
+void TcpEnviServer::initializeSocket(const int _port, const int _optval) {
     mServerFd = socket(static_cast<int>(mIpVersion), SOCK_STREAM, 0);
 
     if (mServerFd < 0) {
@@ -130,7 +129,7 @@ void TcpEnviEchoServer::initializeSocket(const int _port, const int _optval) {
     cout << "Listening..." << endl;
 }
 
-void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
+void *TcpEnviServer::clientCommunication(void *const _parameter) {
     const auto params = (ClientCommunicationParams *) _parameter;
     const auto clientFd = params->clientFd;
 
@@ -171,14 +170,13 @@ void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
     return nullptr;
 }
 
-[[noreturn]] void TcpEnviEchoServer::startRequestHandler() {
+[[noreturn]] void TcpEnviServer::startRequestHandler() {
     sockaddr_storage clientAddress;
     memset(&clientAddress, 0, sizeof(sockaddr_storage));
 
     const socklen_t size = mIpVersion == IpAddrKind::V4 ? sizeof(sockaddr_in) : sizeof(sockaddr_in6);
 
     int i = 0;
-
     while (true) {
         const int clientFd = accept(mServerFd,
                                     reinterpret_cast<sockaddr *>(&clientAddress),
@@ -195,16 +193,24 @@ void *TcpEnviEchoServer::clientCommunication(void *const _parameter) {
         auto parameter = new ClientCommunicationParams();
         parameter->clientFd = clientFd;
 
+        if (i == THREAD_COUNT) {
+            for (const auto thread: mThreadPool) {
+                close(thread);
+            }
+            i = 0;
+        }
+
         if (pthread_create(&mThreadPool[i++],
                            nullptr,
                            clientCommunication,
                            parameter) != 0) {
             printError("ERROR CREATING THREAD");
         }
+
     }
 }
 
-TcpEnviEchoServer::~TcpEnviEchoServer() {
+TcpEnviServer::~TcpEnviServer() {
     cout << "SERVER SHUTTING DOWN" << endl;
     for (unsigned long i: mThreadPool) {
         i != -1 && pthread_cancel(i);

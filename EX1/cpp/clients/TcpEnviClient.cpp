@@ -2,22 +2,15 @@
 // Created by abous on 04/12/2021.
 //
 
-#include "TcpEnviEchoClient.hpp"
-
-enum RequestType : int {
-    GetSensorTypes = 1,
-    GetSensorData,
-    GetAllSensors,
-    Exit,
-};
+#include "TcpEnviClient.hpp"
 
 using namespace std;
 
-TcpEnviEchoClient::TcpEnviEchoClient(const Args *const _args, const IpAddrKind _addressType) :
+TcpEnviClient::TcpEnviClient(const Args *const _args, const IpAddrKind _addressType) :
         mIpVersion(_addressType),
         mClientFd(setupConnection(_args)) {}
 
-int TcpEnviEchoClient::setupConnection(const Args *const _args) {
+int TcpEnviClient::setupConnection(const Args *const _args) {
     const auto ip = _args->ipAddress;
     const int addressSize = mIpVersion == IpAddrKind::V4 ? sizeof(sockaddr_in) : sizeof(sockaddr_in6);
 
@@ -56,7 +49,7 @@ int TcpEnviEchoClient::setupConnection(const Args *const _args) {
     return clientFd;
 }
 
-void TcpEnviEchoClient::startRequest() const {
+void TcpEnviClient::startRequest() const {
     const auto max = 4;
     const auto min = 1;
 
@@ -109,7 +102,7 @@ void TcpEnviEchoClient::startRequest() const {
 }
 
 
-void TcpEnviEchoClient::getSensortypes() const {
+void TcpEnviClient::getSensortypes() const {
     constexpr auto endpoint = "getSensortypes()#";
 
     const int sendStatus = send(mClientFd, endpoint, strlen(endpoint), 0);
@@ -154,7 +147,7 @@ void TcpEnviEchoClient::getSensortypes() const {
  *
  * @param _sensortype a string that is either "air", "light" or "noise"
  */
-void TcpEnviEchoClient::getSensor(const std::string &_sensortype) const {
+void TcpEnviClient::getSensor(const std::string &_sensortype) const {
     const string endpoint = "getSensor(" + _sensortype + ")#";
     const int sendStatus = send(mClientFd, endpoint.c_str(), endpoint.length(), 0);
 
@@ -199,7 +192,7 @@ void TcpEnviEchoClient::getSensor(const std::string &_sensortype) const {
     cout << endl;
 }
 
-void TcpEnviEchoClient::getAllSensors() const {
+void TcpEnviClient::getAllSensors() const {
     constexpr auto endpoint = "getAllSensors()#";
     const int sendStatus = send(mClientFd, endpoint, strlen(endpoint), 0);
 
@@ -258,6 +251,6 @@ void TcpEnviEchoClient::getAllSensors() const {
     cout << endl;
 }
 
-TcpEnviEchoClient::~TcpEnviEchoClient() {
+TcpEnviClient::~TcpEnviClient() {
     close(mClientFd);
 }

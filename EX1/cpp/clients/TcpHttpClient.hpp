@@ -2,8 +2,8 @@
 // Created by abous on 03/12/2021.
 //
 
-#ifndef EX1_TCPHTTPECHOCLIENT_HPP
-#define EX1_TCPHTTPECHOCLIENT_HPP
+#ifndef EX1_TCPHTTPCLIENT_HPP
+#define EX1_TCPHTTPCLIENT_HPP
 
 #include <iostream>
 #include <cstring>
@@ -28,9 +28,9 @@
 
 #endif
 
-class TcpHttpEchoClient {
+class TcpHttpClient {
 
 };
 
 
-#endif //EX1_TCPHTTPECHOCLIENT_HPP
+#endif //EX1_TCPHTTPCLIENT_HPP

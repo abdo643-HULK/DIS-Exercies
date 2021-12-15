@@ -5,6 +5,9 @@
 #ifndef EX1_ERRORS_HPP
 #define EX1_ERRORS_HPP
 
+/**
+ * The used Error Codes
+ */
 constexpr auto DEFAULT_ERROR = -1;
 constexpr auto PORT_ERROR = 1;
 constexpr auto ADDRESS_ERROR = 2;

@@ -69,12 +69,12 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ServerType::TcpHttp: {
-//            TcpHttpEchoServer server;
+//            TcpHttpServer server;
             cout << "Not implemented yet" << endl;
             break;
         }
         case ServerType::TcpEnvi: {
-            TcpEnviEchoServer server;
+            TcpEnviServer server;
             server.initializeSocket(port);
             server.startRequestHandler();
             break;

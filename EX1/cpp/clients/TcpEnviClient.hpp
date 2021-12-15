@@ -2,8 +2,8 @@
 // Created by abous on 04/12/2021.
 //
 
-#ifndef EX1_TCPENVIECHOCLIENT_HPP
-#define EX1_TCPENVIECHOCLIENT_HPP
+#ifndef EX1_TCPENVICLIENT_HPP
+#define EX1_TCPENVICLIENT_HPP
 
 #include <string>
 #include <vector>
@@ -12,12 +12,21 @@
 #include "shared.hpp"
 #include "../errors.hpp"
 
+/**
+ * All Supported Request Types
+ */
+enum RequestType : int {
+    GetSensorTypes = 1,
+    GetSensorData,
+    GetAllSensors,
+    Exit,
+};
 
 /**
- * The TcpEnviEchoClient class trys to connect to the server
+ * The TcpEnviClient class trys to connect to the server
  * and trys to communicate with the server.
  */
-class TcpEnviEchoClient {
+class TcpEnviClient {
     /**
      * contains the IP address type.
      */
@@ -37,11 +46,11 @@ private:
 
 public:
     /**
-     * constructor for TcpEnviEchoClient.
+     * constructor for TcpEnviClient.
      * @param _args contains IP address
      * @param _addressType contains the IP address type
      */
-    TcpEnviEchoClient(const Args *_args, IpAddrKind _addressType);
+    TcpEnviClient(const Args *_args, IpAddrKind _addressType);
 
     /**
      * sends messages to the server.
@@ -68,8 +77,8 @@ public:
     /**
      * destructor to close client field descriptor.
      */
-    ~TcpEnviEchoClient();
+    ~TcpEnviClient();
 };
 
 
-#endif //EX1_TCPENVIECHOCLIENT_HPP
+#endif //EX1_TCPENVICLIENT_HPP

@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 void errorExit(const char *const _msg, int _exitCode, const int _fd) {
     cerr << "\n" << "<<< " << _msg << " >>>" << endl;
     _fd != -1 && close(_fd);

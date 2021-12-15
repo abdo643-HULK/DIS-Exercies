@@ -6,48 +6,25 @@
 #define EX1_SHARED_HPP
 
 #include <iostream>
-
-#ifdef _WIN32
-
-#include <winsock2.h>
-
-#elif __unix__
-
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <netinet/in.h>
-#include <unistd.h>
-
-#endif
+#include "../common.hpp"
 
 /**
- * enum for the address type
+ * The parsed arguments for the clients
  */
-enum class IpAddrKind : int {
-    V4 = AF_INET,
-    V6 = AF_INET6
-};
-
-// rust types
-typedef uint8_t u8;
-typedef uint16_t u16;
-typedef uint32_t u32;
-
 struct Args {
     const char* ipAddress;
     const u32 port;
 };
 
-constexpr u16 BUFFER_SIZE = 1024;
+/**
+ * shutdown code to check from the user
+ */
 constexpr auto SHUTDOWN = "shutdown";
-constexpr auto QUIT = "quit";
 
 /**
- * prints error message
- * @param _msg the error message
- * @param _exitCode exit code of the error
- * @param _fd file descriptor to close
+ * quit code to check from the user
  */
-void errorExit(const char *_msg, int _exitCode = -1, int _fd = -1);
+constexpr auto QUIT = "quit";
+
 
 #endif //EX1_SHARED_HPP
