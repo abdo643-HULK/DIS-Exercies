@@ -86,11 +86,13 @@ public class TcpEnviClient implements IEnvService {
 	public void getAllSensors() {
 		EnvData[] s = requestAll();
 
+		int i = 1;
 		for (EnvData str : s) {
 			String timestamp = "Timestamp: " + str.mTimeStamp;
 			String sensor = "Sensor: " + str.mValues[0];
-			String value = "Value: " + str.mValues[1];
+			String value = "Value: " + str.mValues[i];
 			System.out.println(timestamp + ", " + sensor + ", " + value);
+			++i;
 		}
 	}
 
@@ -105,11 +107,10 @@ public class TcpEnviClient implements IEnvService {
 
 	@Override
 	public String[] requestEnvironmentDataTypes() {
-		String endpoint = "GET_SENSOR_TYPES";
+		String endpoint = "getSensortypes()#";
 		String input = null;
 
 		try {
-
 			mOut.printf(endpoint);
 			input = mIn.readLine();
 
@@ -128,7 +129,7 @@ public class TcpEnviClient implements IEnvService {
 
 	@Override
 	public EnvData requestEnvironmentData(String _type) {
-		mOut.println(_type);
+		mOut.println("getSensor(" + _type + ")#");
 		EnvData envData = null;
 
 		try {
@@ -154,7 +155,7 @@ public class TcpEnviClient implements IEnvService {
 
 	@Override
 	public EnvData[] requestAll() {
-		String endpoint = "GET_ALL";
+		String endpoint = "getAllSensors()#";
 		mOut.println(endpoint);
 
 		String input;

@@ -7,21 +7,20 @@
 using namespace std;
 
 const unordered_map<string, routerCb> ROUTER{
-        {"GET_SENSOR_TYPES", [](const string &_req) {
+        {"getSensortypes()#", [](const string &_req) {
             cout << "GET_SENSOR_TYPES" << endl;
             string data;
-            for (const auto i: SENSOR_TYPES) {
-                data += i;
+            for (const auto i: SENSORS) {
+                data += i.type;
                 data += ';';
             }
-            return data;
+            return data += '#';
         }},
-        {"GET_ALL",          [](const string &_req) {
+        {"getAllSensors()#",  [](const string &_req) {
             cout << "GET_ALL" << endl;
             std::random_device dev;
             std::mt19937 rng(dev());
             std::uniform_int_distribution<u32> value(1, 100);
-            std::uniform_int_distribution<u32> dist3(0, 2);
 
             string data;
             data.reserve(BUFFER_SIZE);
@@ -29,28 +28,33 @@ const unordered_map<string, routerCb> ROUTER{
             const auto timestamp = chrono::seconds(time(nullptr)).count();
             data += to_string(timestamp) + "|";
 
-            const auto count = SENSOR_TYPES->length();
             constexpr auto dataDelimiter = '|';
             constexpr auto keyValDelimiter = ';';
+            const auto count = sizeof(SENSORS) / sizeof(Sensor);
 
-            for (int i = 0; i < count - 1; ++i) {
-                data.append(SENSOR_TYPES[i]);
-                data += keyValDelimiter + to_string(value(rng)) + dataDelimiter;
+            for (auto i : SENSORS) {
+                data.append(i.type);
+
+                for (int j = 0; j < i.amount; ++j) {
+                    data += keyValDelimiter + to_string(value(rng));
+                }
+
+                data += dataDelimiter;
             }
 
-            return data;
+            return data += '#';
         }},
-        {"light",            [](const string &_req) {
+        {"getSensor(light)#", [](const string &_req) {
             cout << "light" << endl;
-            return createSensorData(_req, 1);
+            return createSensorData(_req, 1) += '#';
         }},
-        {"noise",            [](const string &_req) {
+        {"getSensor(noise)#", [](const string &_req) {
             cout << "noise" << endl;
-            return createSensorData(_req, 1);
+            return createSensorData(_req, 1) += '#';
         }},
-        {"air",              [](const string &_req) {
+        {"getSensor(air)#",   [](const string &_req) {
             cout << "air" << endl;
-            return createSensorData(_req, 3);
+            return createSensorData(_req, 3) += '#';
         }},
 };
 
@@ -58,7 +62,6 @@ string createSensorData(const string &_sensorType, const int _dataCount) {
     std::random_device dev;
     std::mt19937 rng(dev());
     std::uniform_int_distribution<u32> value(1, 100);
-    std::uniform_int_distribution<u32> dist(1, _dataCount);
 
     string data;
     data.reserve(BUFFER_SIZE);
@@ -66,9 +69,7 @@ string createSensorData(const string &_sensorType, const int _dataCount) {
     const auto timestamp = chrono::seconds(time(nullptr)).count();
     data += to_string(timestamp) + "|";
 
-
-    const auto count = dist(rng);
-    for (int i = 0; i < count; ++i) {
+    for (int i = 0; i < _dataCount; ++i) {
         data += to_string(value(rng)) + ';';
     }
 
