@@ -12,46 +12,47 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * The TcpEnviClient class implements the interface IEnvService, trys to connect to the C++ EnviServer
- * and to establish a communication with the C++ EnviServer.
+ * The TcpEnviClient class implements the interface IEnvService,
+ * trys to connect to the C++ EnviServer and to establish
+ * a communication with the C++ EnviServer.
  */
 public class TcpEnviClient implements IEnvService {
 	Socket mSocket = null;
 	PrintWriter mOut = null;
 	BufferedReader mIn = null;
 
-    /**
-     * setupConnection() trys to connect to the server.
-     *
-     * @param _port contains the port of the server
-     * @param _serverIp contains the IP address of the server
-     */
-	public void setupConnection(int _port, String _serverIp) {
-
+	/**
+	 * trys to connect to the server.
+	 *
+	 * @param _port     contains the port of the server
+	 * @param _serverIp contains the IP address of the server
+	 */
+	public TcpEnviClient(int _port, String _serverIp) {
 		System.out.println("Trying to connect to host: " + _serverIp + ":" + _port);
 
 		try {
 			mSocket = new Socket(_serverIp, _port);
 			mOut = new PrintWriter(mSocket.getOutputStream(), true);
 			mIn = new BufferedReader(new InputStreamReader(mSocket.getInputStream()));
-		} catch (UnknownHostException e) {
+		} catch (UnknownHostException _e) {
 			System.err.println("Don't know about host: " + _serverIp);
 			System.exit(1);
-		} catch (IOException e) {
+		} catch (IOException _e) {
 			System.err.println("Couldn't get I/O for the connection to: " + _serverIp);
 			System.exit(1);
 		}
+
 	}
 
-    /**
-     * startRequest() sends messages to the server.
-     *
-     * @throws IOException
-     */
-    public void startRequest() throws IOException {
-        Scanner in = new Scanner(System.in);
-        int inputMenu;
-        boolean exit = false;
+	/**
+	 * sends messages to the server.
+	 *
+	 * @throws IOException when reading input fails
+	 */
+	public void startRequest() throws IOException {
+		Scanner in = new Scanner(System.in);
+		int inputMenu;
+		boolean exit = false;
 
 		while (!exit) {
 			do {
@@ -86,40 +87,44 @@ public class TcpEnviClient implements IEnvService {
 		mSocket.close();
 	}
 
-    /**
-     * getSensorType() sends a request for all available sensor types and prints the received data.
-     */
-    public void getSensorType() {
-        String[] s = requestEnvironmentDataTypes();
+	/**
+	 * getSensorType() sends a request for all available sensor types and prints the received data.
+	 */
+	public void getSensorType() {
+		String[] s = requestEnvironmentDataTypes();
 
 		for (String str : s) {
 			System.out.println(str);
 		}
 	}
 
-    /**
-     * getAllSensor() sends a request for all available sensor values and prints the received data.
-     */
-    public void getAllSensors() {
-        EnvData[] s = requestAll();
+	/**
+	 * getAllSensor() sends a request for all available sensor values and prints the received data.
+	 */
+	public void getAllSensors() {
+		EnvData[] s = requestAll();
 
-		int i = 1;
 		for (EnvData str : s) {
 			String timestamp = "Timestamp: " + str.mTimeStamp;
+			if (Objects.equals(str.mValues[0], "#")) return;
 			String sensor = "Sensor: " + str.mValues[0];
-			String value = "Value: " + str.mValues[i];
-			System.out.println(timestamp + ", " + sensor + ", " + value);
-			++i;
+
+			StringBuilder value = new StringBuilder("Values: ");
+			for (int i = 1; i < str.mValues.length; ++i) {
+				value.append(str.mValues[i]).append(", ");
+			}
+
+			System.out.println(timestamp + ", " + sensor + " - " + value);
 		}
 	}
 
-    /**
-     * getSensor() sends a request for a concret sensor values and prints the received data.
-     *
-     * @param _type concrete type of sensor.
-     */
-    public void getSensor(String _type) {
-        EnvData s = requestEnvironmentData(_type);
+	/**
+	 * getSensor() sends a request for a concret sensor values and prints the received data.
+	 *
+	 * @param _type concrete type of sensor.
+	 */
+	public void getSensor(String _type) {
+		EnvData s = requestEnvironmentData(_type);
 
 		for (String str : s.mValues) {
 			System.out.println("Timestamp: " + s.mTimeStamp + ", Value: " + str);
@@ -141,12 +146,13 @@ public class TcpEnviClient implements IEnvService {
 				return null;
 			}
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException _e) {
+			_e.printStackTrace();
 		}
 
 		if (input == null) return null;
-		return input.split(";");
+		final String[] list = input.split(";");
+		return Arrays.copyOf(list, list.length - 1);
 	}
 
 	@Override
@@ -164,12 +170,12 @@ public class TcpEnviClient implements IEnvService {
 
 			String[] s = input.split("\\|");
 			String timestamp = s[0];
-			String data = s[1];
+			String[] data = s[1].split(";");
 
-			envData = new EnvData(timestamp, data.split(";"));
+			envData = new EnvData(timestamp, Arrays.copyOf(data, data.length - 1));
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException _e) {
+			_e.printStackTrace();
 		}
 
 		return envData;
@@ -196,11 +202,15 @@ public class TcpEnviClient implements IEnvService {
 			String[] data = Arrays.copyOfRange(s, 1, s.length);
 			envData = new EnvData[data.length];
 
-			for (int i = 0; i < data.length; i++) {
-				envData[i] = new EnvData(timestamp, data[i].split(";"));
+			for (int i = 0; i < data.length - 1; i++) {
+				String[] res = data[i].split(";");
+				envData[i] = new EnvData(timestamp, res);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+
+			String[] res = data[data.length - 1].split(";");
+			envData[data.length - 1] = new EnvData(timestamp, Arrays.copyOf(res, res.length - 1));
+		} catch (IOException _e) {
+			_e.printStackTrace();
 		}
 
 		return envData;

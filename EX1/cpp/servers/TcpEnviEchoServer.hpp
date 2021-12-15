@@ -48,7 +48,7 @@ public:
 
     void initializeSocket(int _port, int _optval = 1);
 
-    void startRequestHandler();
+    [[noreturn]] void startRequestHandler();
 
     ~TcpEnviEchoServer();
 };

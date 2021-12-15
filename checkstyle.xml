@@ -39,7 +39,7 @@
         </module>
         <module name="AvoidEscapedUnicodeCharacters">
             <property name="allowEscapesForControlCharacters" value="true"/>
-            <property name="allowByTailComment" value="true"/>
+<!--            <property name="allowByTailComment" value="true"/>-->
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
         <!--        <module name="AvoidStarImport"/>-->
@@ -140,11 +140,6 @@
             <property name="tokens" value="METHOD_REF"/>
             <property name="option" value="nl"/>
         </module>
-        <module name="PackageName">
-            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
-            <message key="name.invalidPattern"
-                     value="Package name ''{0}'' must match pattern ''{1}''."/>
-        </module>
         <module name="TypeName">
             <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
                     ANNOTATION_DEF, RECORD_DEF"/>
@@ -169,13 +164,11 @@
             <property name="format" value="^_[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
             <message key="name.invalidPattern"
                      value="Parameter name ''{0}'' must match start with an '_'."/>
-            <!--            <message key="name.invalidPattern"-->
-            <!--                     value="Parameter name ''{0}'' must match pattern ''{1}''."/>-->
         </module>
         <module name="CatchParameterName">
-            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <property name="format" value="^_[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
             <message key="name.invalidPattern"
-                     value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
+                     value="Parameter name ''{0}'' must match start with an '_'."/>
         </module>
         <module name="LocalVariableName">
             <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
@@ -225,7 +218,7 @@
             <property name="ignoreFinal" value="false"/>
             <property name="allowedAbbreviationLength" value="0"/>
             <property name="tokens"
-                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, ANNOTATION_FIELD_DEF,
+                      value="CLASS_DEF, ENUM_DEF, ANNOTATION_DEF, ANNOTATION_FIELD_DEF,
                     PARAMETER_DEF, VARIABLE_DEF, METHOD_DEF, PATTERN_VARIABLE_DEF, RECORD_DEF,
                     RECORD_COMPONENT_DEF"/>
         </module>
@@ -270,8 +263,8 @@
             <property name="allowSamelineMultipleAnnotations" value="true"/>
         </module>
         <module name="NonEmptyAtclauseDescription"/>
-        <module name="InvalidJavadocPosition"/>
-        <module name="JavadocTagContinuationIndentation"/>
+<!--        <module name="InvalidJavadocPosition"/>-->
+<!--        <module name="JavadocTagContinuationIndentation"/>-->
         <module name="RequireEmptyLineBeforeBlockTagGroup"/>
         <module name="AtclauseOrder">
             <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
@@ -283,9 +276,9 @@
             <message key="name.invalidPattern"
                      value="Method name ''{0}'' must match pattern ''{1}''."/>
         </module>
-        <module name="CommentsIndentation">
-            <property name="tokens" value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>
-        </module>
+<!--        <module name="CommentsIndentation">-->
+<!--            <property name="tokens" value="SINGLE_LINE_COMMENT, BLOCK_COMMENT_BEGIN"/>-->
+<!--        </module>-->
         <module name="SuppressionXpathFilter">
             <property name="file" value="${org.checkstyle.google.suppressionxpathfilter.config}"
                       default="checkstyle-xpath-suppressions.xml"/>
