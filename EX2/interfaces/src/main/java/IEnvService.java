@@ -1,6 +1,7 @@
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface IEnvService {
+public interface IEnvService extends Remote {
 	/**
 	 * Provides the types of the available environmental sensors
 	 *
