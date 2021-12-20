@@ -20,6 +20,7 @@ build
 
 # cpp
 .idea/sonarlint
+.idea/sonarlint/**
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
