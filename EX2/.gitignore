@@ -16,10 +16,6 @@ build
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
-.idea/checkstyleidea-libs
-
-# cpp
-.idea/sonarlint
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -29,7 +25,6 @@ build
 .idea/**/sqlDataSources.xml
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
-.idea/aws.xml
 
 # Gradle:
 .idea/**/gradle.xml
