@@ -1,6 +1,7 @@
 import java.rmi.server.UnicastRemoteObject
 
-class Server : UnicastRemoteObject(), IEnvService {
+//@Throws(RemoteException::class)
+class Server : UnicastRemoteObject(), IEnvService, ICookiesService {
     private val sensorTypes = mapOf("air" to 3u)
 
     override fun requestEnvironmentDataTypes(): Array<String> {
@@ -25,4 +26,7 @@ class Server : UnicastRemoteObject(), IEnvService {
         }.toTypedArray()
     }
 
+    override fun saySomething() {
+        println("cookies!")
+    }
 }
