@@ -34,16 +34,17 @@ public class ClientMain {
 				} while (inputMenu < 1 || inputMenu > 4);
 
 				switch (inputMenu) {
-					case 1 -> envStub.requestEnvironmentDataTypes();
-					case 2 -> envStub.requestEnvironmentData("air");
-					case 3 -> envStub.requestAll();
+					case 1 -> System.out.println(envStub.requestEnvironmentDataTypes());
+					case 2 -> System.out.println(envStub.requestEnvironmentData("air"));
+					case 3 -> System.out.println(envStub.requestAll());
 					default -> exit = true;
 				}
 			}
 
+
+
 		} catch (Exception _e) {
 			_e.printStackTrace();
 		}
-
 	}
 }

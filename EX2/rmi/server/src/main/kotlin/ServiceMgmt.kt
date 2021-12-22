@@ -1,13 +1,23 @@
+import java.lang.Exception
+import java.rmi.NotBoundException
+import java.rmi.RemoteException
 import java.rmi.registry.LocateRegistry
 import java.rmi.registry.Registry
+import java.rmi.server.RemoteObject
+import java.rmi.server.UnicastRemoteObject
 
 const val ENV_SERVICE = "EnvService"
 
 class ServiceMgmt {
+    private val registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT)
     private val mServer by lazy { Server() }
 
     init {
-        startMenu()
+        try {
+            startMenu()
+        } catch (_e: RemoteException) {
+            System.err.println("ERROR CREATING REGISTRY: $_e")
+        }
     }
 
     private fun startMenu() {
@@ -27,21 +37,40 @@ class ServiceMgmt {
             when (inputMenu) {
                 1u -> startRmi()
                 2u -> stopRmi()
-                3u -> quit()
+                3u -> return quit()
             }
         }
     }
 
     private fun startRmi() {
-        val reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT)
-        reg.bind(ENV_SERVICE, mServer)
+        try {
+            registry.rebind(ENV_SERVICE, mServer)
+            println("RMI SERVICE STARTED")
+        } catch (_e: RemoteException) {
+            System.err.println("ERROR STARTING SERVER: $_e")
+        }
     }
 
     private fun stopRmi() {
-
+        try {
+            registry.unbind(ENV_SERVICE)
+            UnicastRemoteObject.unexportObject(mServer, true)
+            println("RMI SERVICE STOPPED")
+        } catch (_e: Exception) {
+            when (_e) {
+                is RemoteException, is NotBoundException -> {
+                    println("SERVER ALREADY STOPPED")
+                }
+            }
+        }
     }
 
     private fun quit() {
-
+        stopRmi()
+        try {
+            UnicastRemoteObject.unexportObject(registry, true)
+        } catch (_e: Exception) {
+            System.err.println("ERROR QUITTING SERVICE MGMT: $_e")
+        }
     }
 }
