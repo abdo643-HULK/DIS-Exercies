@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/interfaces/DIS-Exercies.EX2.interfaces.main.iml" filepath="$PROJECT_DIR$/.idea/modules/interfaces/DIS-Exercies.EX2.interfaces.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rmi/client/DIS-Exercies.EX2.rmi.client.iml" filepath="$PROJECT_DIR$/.idea/modules/rmi/client/DIS-Exercies.EX2.rmi.client.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/EX2.iml" filepath="$PROJECT_DIR$/.idea/EX2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/interfaces/EX2.interfaces.iml" filepath="$PROJECT_DIR$/.idea/modules/interfaces/EX2.interfaces.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/interfaces/EX2.interfaces.main.iml" filepath="$PROJECT_DIR$/.idea/modules/interfaces/EX2.interfaces.main.iml" />
