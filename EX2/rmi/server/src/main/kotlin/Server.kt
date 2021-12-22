@@ -1,27 +1,31 @@
 import java.rmi.server.UnicastRemoteObject
 
-//@Throws(RemoteException::class)
+const val SECONDS_DIVISOR = 1000
+
+@Suppress("MagicNumber")
+val SENSOR_VALUES_RANGE= (0..200)
+
 class Server : UnicastRemoteObject(), IEnvService, ICookiesService {
-    private val sensorTypes = mapOf("air" to 3u)
+    private val mSensorTypes = mapOf("air" to 3u)
 
     override fun requestEnvironmentDataTypes(): Array<String> {
-        return sensorTypes.keys.toTypedArray()
+        return mSensorTypes.keys.toTypedArray()
     }
 
     override fun requestEnvironmentData(_type: String?): EnvData {
-        val time = System.currentTimeMillis() / 1000
-        val values = IntArray(3) { (0..200).random() }
+        val time = System.currentTimeMillis() / SECONDS_DIVISOR
 
-        return sensorTypes[_type]?.let {
+        return mSensorTypes[_type]?.let {
+            val values = IntArray(it.toInt()) { SENSOR_VALUES_RANGE.random() }
             EnvData(time.toString(), _type, values)
         } ?: EnvData(time.toString(), "none", intArrayOf())
     }
 
     override fun requestAll(): Array<EnvData> {
-        val time = System.currentTimeMillis() / 1000
+        val time = System.currentTimeMillis() / SECONDS_DIVISOR
 
-        return sensorTypes.map {
-            val values = IntArray(it.value.toInt()) { (0..200).random() }
+        return mSensorTypes.map {
+            val values = IntArray(it.value.toInt()) { SENSOR_VALUES_RANGE.random() }
             EnvData(time.toString(), it.key, values)
         }.toTypedArray()
     }

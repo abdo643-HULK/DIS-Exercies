@@ -8,7 +8,7 @@
     <property name="severity" value="error"/>
     <property name="tabWidth" value="4"/>
 
-    <property name="fileExtensions" value="java, properties, xml, kt"/>
+    <property name="fileExtensions" value="java, properties, xml"/>
 
     <module name="BeforeExecutionExclusionFileFilter">
         <property name="fileNamePattern" value="module\-info\.java$"/>

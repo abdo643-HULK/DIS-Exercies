@@ -1,0 +1,13 @@
+naming:
+  LambdaParameterNaming:
+    parameterPattern: '_[a-z][A-Za-z0-9]*'
+  ConstructorParameterNaming:
+    parameterPattern: '_[a-z][A-Za-z0-9]*'
+  FunctionParameterNaming:
+    parameterPattern: '_[a-z][A-Za-z0-9]*'
+  VariableNaming:
+    privateVariablePattern: 'm[A-Z][A-Za-z0-9]*'
+
+exceptions:
+  TooGenericExceptionCaught:
+    exceptionNames: []
