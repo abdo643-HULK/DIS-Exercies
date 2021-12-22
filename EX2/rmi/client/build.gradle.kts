@@ -1,10 +1,7 @@
 plugins {
-    kotlin("jvm")
     java
+    kotlin("jvm")
 }
-
-group = "at.fh-ooe.shehata-milo"
-version = "0.1"
 
 repositories {
     mavenCentral()
