@@ -17,6 +17,7 @@ build
 .idea/**/tasks.xml
 .idea/**/compiler.xml
 .idea/compiler.xml
+.idea/misc.xml
 .idea/dictionaries
 .idea/checkstyleidea-libs
 
