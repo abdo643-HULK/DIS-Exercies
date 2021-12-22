@@ -41,15 +41,9 @@ public class ClientMain {
 				}
 			}
 
-
-
 		} catch (Exception _e) {
 			_e.printStackTrace();
 		}
-
-
-
-
 
 	}
 }
