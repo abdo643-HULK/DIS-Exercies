@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class EnvData implements Serializable {
 	final String mTimestamp;
@@ -9,5 +10,14 @@ public class EnvData implements Serializable {
 		mTimestamp = _timestamp;
 		mSensor = _sensor;
 		mValues = _values;
+	}
+
+	@Override
+	public String toString() {
+		return "EnvData{"
+				+ "mTimestamp='" + mTimestamp + '\''
+				+ ", mSensor='" + mSensor + '\''
+				+ ", mValues=" + Arrays.toString(mValues)
+				+ '}';
 	}
 }
