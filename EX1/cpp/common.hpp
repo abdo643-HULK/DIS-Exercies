@@ -53,7 +53,7 @@ enum class IpAddrKind : int {
 /**
  * The Buffer size for all the char arrays
  */
-constexpr u16 BUFFER_SIZE = 1024;
+constexpr u16 BUFFER_SIZE = 2048;
 
 /**
  * prints error message

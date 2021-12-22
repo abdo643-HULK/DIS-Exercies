@@ -69,7 +69,8 @@ int main(int _argc, char *_argv[]) {
             break;
         }
         case ServerType::TcpHttp: {
-//            TcpHttpServer server;
+            TcpHttpServer server(IpAddrKind::V4, port);
+            server.startRequestHandler();
             cout << "Not implemented yet" << endl;
             break;
         }

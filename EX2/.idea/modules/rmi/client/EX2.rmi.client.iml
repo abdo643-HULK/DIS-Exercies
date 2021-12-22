@@ -7,6 +7,9 @@
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../rmi/client">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../rmi/client/src/main/java" isTestSource="false" />
+    </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
