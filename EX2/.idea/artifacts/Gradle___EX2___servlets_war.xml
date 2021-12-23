@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Gradle : EX2 : servlets.war">
+    <output-path>$PROJECT_DIR$/servlets/build/libs</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$">
+        <buildTaskPath>:servlets:war</buildTaskPath>
+        <cleanTaskPath>:servlets:cleanWar</cleanTaskPath>
+      </options>
+    </properties>
+    <root id="archive" name="servlets.war">
+      <element id="artifact" artifact-name="Gradle : EX2 : servlets.war (exploded)" />
+    </root>
+  </artifact>
+</component>

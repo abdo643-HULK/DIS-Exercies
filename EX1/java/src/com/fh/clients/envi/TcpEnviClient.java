@@ -88,7 +88,6 @@ public class TcpEnviClient implements IEnvService {
 				case 3 -> getAllSensors();
 				default -> exit = true;
 			}
-
 		}
 
 		mOut.close();

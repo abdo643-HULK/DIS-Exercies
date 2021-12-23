@@ -3,7 +3,7 @@ import javax.servlet.http.HttpServlet
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@WebServlet(name = "HelloWorldServlet", urlPatterns = ["/"])
+@WebServlet(name = "EnvironmentServiceServlet", urlPatterns = ["/env"])
 class EnvironmentServiceServlet: HttpServlet() {
     override fun doGet(_req: HttpServletRequest, _res: HttpServletResponse) {
 
