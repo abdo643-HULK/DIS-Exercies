@@ -10,7 +10,3 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
 }
-
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
-}

@@ -1,5 +1,8 @@
+package interfaces;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import classes.EnvData;
 
 public interface IEnvService extends Remote {
 	/**
@@ -14,10 +17,10 @@ public interface IEnvService extends Remote {
 
 	/**
 	 * Provides the measurement values of a specific sensor in the form
-	 * of an environmental data object (EnvData)
+	 * of an environmental data object (classes.EnvData)
 	 *
 	 * @param _type the type of the targeted sensor
-	 * @return EnvData the current measurement value of the sensor
+	 * @return classes.EnvData the current measurement value of the sensor
 	 * null, if the sensor doesn’t exist
 	 * @throws RemoteException An error occurred during the communication
 	 * @see EnvData
@@ -29,7 +32,7 @@ public interface IEnvService extends Remote {
 	/**
 	 * Provides the measurement values of all available sensors
 	 *
-	 * @return EnvData[] all available measurement values
+	 * @return classes.EnvData[] all available measurement values
 	 * @throws RemoteException An error occurred during the communication
 	 * @see EnvData
 	 * @see String

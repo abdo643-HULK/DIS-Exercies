@@ -11,7 +11,7 @@
         <entry key="location-2" value="LOCAL_FILE:$PROJECT_DIR$/checkstyle.xml:Krösche Style" />
         <entry key="scan-before-checkin" value="false" />
         <entry key="scanscope" value="Everything" />
-        <entry key="suppress-errors" value="false" />
+        <entry key="suppress-errors" value="true" />
       </map>
     </option>
   </component>

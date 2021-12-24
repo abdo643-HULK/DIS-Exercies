@@ -13,32 +13,24 @@ import java.nio.charset.StandardCharsets;
 public class SessionServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        String userAgent = req.getHeader("user-agent");
+    protected void doGet(HttpServletRequest _req, HttpServletResponse _resp) throws IOException {
+        HttpSession session = _req.getSession();
+        String userAgent = _req.getHeader("user-agent");
         String browserName = "";
         int magicNumber = 0;
 
         try {
-            magicNumber = Integer.parseInt(req.getParameter("magicNumber"));
-        } catch (Exception ignored) {
+            magicNumber = Integer.parseInt(_req.getParameter("magicNumber"));
+        } catch (Exception _ignored) {
 
         }
 
+	    browserName = getBrowser(userAgent);
 
-        if (userAgent.contains("Chrome")) { //checking if Chrome
-            String substring = userAgent.substring(userAgent.indexOf("Chrome")).split(" ")[0];
-            browserName = substring.split("/")[0];
-        } else if (userAgent.contains("Firefox")) {  //Checking if Firefox
-            String substring = userAgent.substring(userAgent.indexOf("Firefox")).split(" ")[0];
-            browserName = substring.split("/")[0];
-        }
-
-
-        InputStream htmlFile = getServletContext().getResourceAsStream("/WEB-INF/classes/session.html");
+	    InputStream htmlFile = getServletContext().getResourceAsStream("/WEB-INF/classes/session.html");
         String html = new String(htmlFile.readAllBytes(), StandardCharsets.UTF_8);
 
-        PrintWriter writer = resp.getWriter();
+        PrintWriter writer = _resp.getWriter();
 
         html = html
                 .replace("%browser%", browserName)
@@ -51,5 +43,15 @@ public class SessionServlet extends HttpServlet {
         writer.close();
     }
 
+    String getBrowser(String _userAgent) {
+        if (_userAgent.contains("Chrome")) { //checking if Chrome
+            String substring = _userAgent.substring(_userAgent.indexOf("Chrome")).split(" ")[0];
+            return substring.split("/")[0];
+        } else if (_userAgent.contains("Firefox")) {  //Checking if Firefox
+            String substring = _userAgent.substring(_userAgent.indexOf("Firefox")).split(" ")[0];
+            return substring.split("/")[0];
+        }
 
+        return "";
+    }
 }

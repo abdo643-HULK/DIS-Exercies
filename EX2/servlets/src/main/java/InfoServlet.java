@@ -11,57 +11,55 @@ import java.nio.charset.StandardCharsets;
 @WebServlet(name = "InfoServlet", urlPatterns = {"/info"})
 public class InfoServlet extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String ipAddress = req.getHeader("X-FORWARDED-FOR");
-        String port = String.valueOf(req.getRemotePort());
-        String userAgent = req.getHeader("user-agent");
-        String browserName = "";
-        String mimeTypes = req.getHeader("accept");
-        String clientProtocol = req.getProtocol();
-        String serverName = req.getServerName();
-        String backgroundParameter = req.getParameter("background");
+	@Override
+	protected void doGet(HttpServletRequest _req, HttpServletResponse _resp) throws ServletException, IOException {
+		String ipAddress = _req.getHeader("X-FORWARDED-FOR");
+		if (ipAddress == null) {
+			ipAddress = _req.getRemoteAddr();
+		}
+
+		String userAgent = _req.getHeader("user-agent");
+		String browserName = "";
+		browserName = getBrowser(userAgent);
+
+		String backgroundParameter = _req.getParameter("background");
+		if (backgroundParameter == null || backgroundParameter.equals("")) {
+			backgroundParameter = "turquoise";
+		}
+
+		String port = String.valueOf(_req.getRemotePort());
+		String mimeTypes = _req.getHeader("accept");
+		String clientProtocol = _req.getProtocol();
+		String serverName = _req.getServerName();
+
+		InputStream htmlFile = getServletContext().getResourceAsStream("/WEB-INF/classes/info.html");
+		String html = new String(htmlFile.readAllBytes(), StandardCharsets.UTF_8);
+
+		PrintWriter writer = _resp.getWriter();
+
+		html = html
+				.replace("%ipAddress%", ipAddress)
+				.replace("%browser%", browserName)
+				.replace("%mimeTypes%", mimeTypes)
+				.replace("%clientProtocol%", clientProtocol)
+				.replace("%port%", port)
+				.replace("%serverName%", serverName)
+				.replace("%backgroundColor%", backgroundParameter);
 
 
-        if (ipAddress == null) {
-            ipAddress = req.getRemoteAddr();
-        }
+		writer.println(html);
+		writer.close();
+	}
 
-        if(userAgent.contains("Chrome")){ //checking if Chrome
-            String substring=userAgent.substring(userAgent.indexOf("Chrome")).split(" ")[0];
-            browserName=substring.split("/")[0];
-        }
-        else if(userAgent.contains("Firefox")){  //Checking if Firefox
-            String substring=userAgent.substring(userAgent.indexOf("Firefox")).split(" ")[0];
-            browserName=substring.split("/")[0];
-        }
+	String getBrowser(String _userAgent) {
+		if (_userAgent.contains("Chrome")) { //checking if Chrome
+			String substring = _userAgent.substring(_userAgent.indexOf("Chrome")).split(" ")[0];
+			return substring.split("/")[0];
+		} else if (_userAgent.contains("Firefox")) {  //Checking if Firefox
+			String substring = _userAgent.substring(_userAgent.indexOf("Firefox")).split(" ")[0];
+			return substring.split("/")[0];
+		}
 
-        if(backgroundParameter == null || backgroundParameter.equals("")) {
-            backgroundParameter = "turquoise";
-        }
-
-
-
-
-
-        InputStream htmlFile = getServletContext().getResourceAsStream("/WEB-INF/classes/info.html");
-        String html = new String(htmlFile.readAllBytes(), StandardCharsets.UTF_8);
-
-        PrintWriter writer = resp.getWriter();
-
-
-        html = html
-                .replace("%ipAddress%", ipAddress)
-                .replace("%browser%", browserName)
-                .replace("%mimeTypes%", mimeTypes)
-                .replace("%clientProtocol%", clientProtocol)
-                .replace("%port%", port)
-                .replace("%serverName%", serverName)
-                .replace("%backgroundColor%", backgroundParameter);
-
-
-
-        writer.println(html);
-        writer.close();
-    }
+		return "";
+	}
 }

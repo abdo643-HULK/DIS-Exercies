@@ -1,3 +1,6 @@
+import interfaces.ICookiesService;
+import interfaces.IEnvService;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
@@ -40,7 +43,6 @@ public class ClientMain {
 					default -> exit = true;
 				}
 			}
-
 
 
 		} catch (Exception _e) {

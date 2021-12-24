@@ -3,7 +3,6 @@
   <component name="DetektProjectConfiguration">
     <enableDetekt>true</enableDetekt>
     <buildUponDefaultConfig>true</buildUponDefaultConfig>
-    <treatAsError>true</treatAsError>
     <configPaths>C:\Code\FH\VIS\EX2\.config\detekt-config.yaml</configPaths>
   </component>
 </project>

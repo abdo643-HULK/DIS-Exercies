@@ -1,3 +1,6 @@
+import classes.EnvData
+import interfaces.ICookiesService
+import interfaces.IEnvService
 import java.rmi.server.UnicastRemoteObject
 
 const val SECONDS_DIVISOR = 1000
@@ -5,7 +8,8 @@ const val SECONDS_DIVISOR = 1000
 @Suppress("MagicNumber")
 val SENSOR_VALUES_RANGE= (0..200)
 
-class Server : UnicastRemoteObject(), IEnvService, ICookiesService {
+class Server : UnicastRemoteObject(), IEnvService,
+    ICookiesService {
     private val mSensorTypes = mapOf("air" to 3u)
 
     override fun requestEnvironmentDataTypes(): Array<String> {
