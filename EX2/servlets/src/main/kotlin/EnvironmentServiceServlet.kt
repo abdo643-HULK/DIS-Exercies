@@ -30,22 +30,37 @@ const val OFFLINE_CPP =
 
 @WebServlet(name = "EnvironmentServiceServlet", urlPatterns = ["/env"])
 class EnvironmentServiceServlet : HttpServlet() {
-    private val mRmiClient by lazy {
-        try {
+//    private val mRmiClient by lazy {
+//        try {
+//            EnvClient()
+//        } catch (_e: Exception) {
+//            null
+//        }
+//    }
+//    private val mCppClient by lazy {
+//        try {
+//            TcpEnviClient(CPP_SERVER_PORT, "127.0.0.1")
+//        } catch (_e: IOException) {
+//            null
+//        }
+//    }
+
+    override fun doGet(_req: HttpServletRequest, _res: HttpServletResponse) {
+        val rmiClient = try {
             EnvClient()
         } catch (_e: Exception) {
             null
         }
-    }
-    private val mCppClient by lazy {
-        try {
+
+        val cppClient = try {
             TcpEnviClient(CPP_SERVER_PORT, "127.0.0.1")
-        } catch (_e: IOException) {
+        } catch (_e: Exception) {
             null
         }
-    }
 
-    override fun doGet(_req: HttpServletRequest, _res: HttpServletResponse) {
+        println(rmiClient)
+        println(cppClient)
+
         val htmlFile =
             servletContext
                 .getResource("/WEB-INF/classes/env.html")
@@ -55,11 +70,11 @@ class EnvironmentServiceServlet : HttpServlet() {
                 return
             }
 
-        val rmiTable = mRmiClient?.requestAll()?.let {
+        val rmiTable = rmiClient?.requestAll()?.let {
             createTableBody(it)
         } ?: OFFLINE_RMI
 
-        val cppTable = mCppClient?.requestAll()?.let {
+        val cppTable = cppClient?.requestAll()?.let {
             createTableBody(it)
         } ?: OFFLINE_CPP
 
@@ -68,21 +83,22 @@ class EnvironmentServiceServlet : HttpServlet() {
             .replace("%rmi-data%", rmiTable)
         _res.writer.println(html)
         _res.writer.close()
+        cppClient?.close()
     }
 
-    override fun destroy() {
-        super.destroy()
-        mCppClient?.close()
-    }
+//    override fun destroy() {
+//        super.destroy()
+//        mCppClient?.close()
+//    }
 }
 
 fun createTableBody(_envData: Array<EnvData>): String {
     return _envData.map {
         """
-            <tr>
-                <td>${it.getmTimestamp()}</td>
-                <td>${it.getmSensor()}</td>
-                <td>${it.getmValues().joinToString(separator = "; ") { value -> "$value" }}</td>
+            <tr class="mdc-data-table__row">
+                <td class="mdc-data-table__cell">${it.getmTimestamp()}</td>
+                <td class="mdc-data-table__cell">${it.getmSensor()}</td>
+                <td class="mdc-data-table__cell">${it.getmValues().joinToString(separator = "; ") { value -> "$value" }}</td>
             </tr>                    
         """.trimIndent()
     }.joinToString(separator = "\n") { it }
