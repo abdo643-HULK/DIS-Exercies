@@ -1,6 +1,8 @@
 plugins {
-    kotlin("jvm") version "1.6.10"
     java
+    idea
+    checkstyle
+    kotlin("jvm") version "1.6.10"
 }
 
 version = "1.0.0"
