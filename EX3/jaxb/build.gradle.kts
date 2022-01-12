@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.ir.backend.js.compile
+
 plugins {
     java
     application
@@ -13,6 +15,8 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("javax.xml.bind:jaxb-api:2.3.1")
+
+
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
