@@ -1,7 +1,6 @@
 plugins {
-    java
-    application
     kotlin("jvm")
+    java
 }
 
 version = "1.0.0"
@@ -12,7 +11,8 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("javax.xml.bind:jaxb-api:2.3.1")
+    // https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api
+    implementation("javax.ws.rs:javax.ws.rs-api:2.1.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
