@@ -12,7 +12,7 @@ class WGS {
 		mLongitude = _longitude;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		var xml = "<wgs84><latitude>48.31</latitude><longitude>14.29</longitude></wgs84>";
 
 		var rootRegex = Pattern.compile("<wgs84>(.*?)</wgs84>", Pattern.DOTALL);
@@ -34,7 +34,7 @@ class WGS {
 		var wgs84 = new WGS(map.get("latitude"), map.get("longitude"));
 		
 		System.out.println(wgs84);
-	}
+	} */
 
 	@Override
 	public String toString() {
