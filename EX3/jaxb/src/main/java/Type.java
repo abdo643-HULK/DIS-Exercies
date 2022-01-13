@@ -1,6 +1,6 @@
 public enum Type {
-	cat,
-	dog,
-	mouse,
-	bird
+	CAT,
+	DOG,
+	MOUSE,
+	BIRD
 }

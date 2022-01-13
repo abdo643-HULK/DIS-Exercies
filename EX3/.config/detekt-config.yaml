@@ -2,7 +2,7 @@ naming:
   LambdaParameterNaming:
     parameterPattern: '_[a-z][A-Za-z0-9]*'
   ConstructorParameterNaming:
-    parameterPattern: '_[a-z][A-Za-z0-9]*'
+    parameterPattern: 'm[A-Z][A-Za-z0-9]*'
     ignoreOverridden: false
   FunctionParameterNaming:
     parameterPattern: '_[a-z][A-Za-z0-9]*'

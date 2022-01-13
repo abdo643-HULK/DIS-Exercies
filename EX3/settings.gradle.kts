@@ -1,5 +1,7 @@
 rootProject.name = "EX3"
 
+include("lib")
 include("jaxb")
-include("soap")
 include("rest")
+include("soap:client")
+include("soap:server")

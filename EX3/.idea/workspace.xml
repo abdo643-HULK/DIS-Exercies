@@ -4,23 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ee11814-f7c8-4259-b8eb-09ff4af489ed" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/jaxb/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/aws.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="7ee11814-f7c8-4259-b8eb-09ff4af489ed" name="Changes" comment="preparation">
+      <change afterPath="$PROJECT_DIR$/.idea/aws.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/main/kotlin/DummyData.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/server/src/main/java/HelloWorld.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/server/src/main/java/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/server/src/main/kotlin/HelloWorld.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/server/src/main/kotlin/main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.config/detekt-config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/.config/detekt-config.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/EX3.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/jaxb/EX3.jaxb.main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jaxb/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/jaxb/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaxb/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/jaxb/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jaxb/src/main/java/Pet.java" beforeDir="false" afterPath="$PROJECT_DIR$/jaxb/src/main/java/Pet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaxb/src/main/java/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/jaxb/src/main/java/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jaxb/src/main/java/WGS.java" beforeDir="false" afterPath="$PROJECT_DIR$/jaxb/src/main/java/WGS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jaxb/src/main/kotlin/Wind.kt" beforeDir="false" afterPath="$PROJECT_DIR$/jaxb/src/main/kotlin/Wind.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jaxb/src/main/kotlin/main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/jaxb/src/main/kotlin/main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,12 +56,22 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Kotlin File" />
+        <option value="Kotlin Class" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -72,8 +86,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/soap" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15722656" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Code\FH\VIS\EX3\soap\server\src\main\java" />
+      <recent name="C:\Code\FH\VIS\EX3\soap" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="EX3.jaxb.main" />
@@ -81,8 +107,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="WGS" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="WGS" />
+      <module name="EX3.jaxb.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainKt" />
+      <module name="EX3.jaxb.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.WGS" />
+        <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -101,6 +143,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
