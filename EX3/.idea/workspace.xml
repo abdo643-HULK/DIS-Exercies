@@ -4,13 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ee11814-f7c8-4259-b8eb-09ff4af489ed" name="Changes" comment="first part finished">
-      <change afterPath="$PROJECT_DIR$/soap/server/src/main/kotlin/Environment.kt" afterDir="false" />
+    <list default="true" id="7ee11814-f7c8-4259-b8eb-09ff4af489ed" name="Changes" comment="preparation">
+      <change afterPath="$PROJECT_DIR$/soap/server/src/main/java/hello/DummyData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/server/src/main/java/hello/HelloWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/jaxb/EX3.jaxb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/jaxb/EX3.jaxb.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/lib/EX3.lib.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/lib/EX3.lib.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/soap/server/EX3.soap.server.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/soap/server/EX3.soap.server.main.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rest/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/rest/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/soap/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/soap/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/soap/client/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/soap/client/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/soap/server/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/soap/server/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/soap/server/src/main/java/HelloWorld.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/soap/server/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/soap/server/src/main/java/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +46,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin File" />
-        <option value="Class" />
         <option value="Kotlin Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -85,7 +88,14 @@
       <recent name="C:\Code\FH\VIS\EX3\soap" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.Main (1)">
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="EX3.soap.server.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="EX3.jaxb.main" />
@@ -109,6 +119,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.WGS" />
         <item itemvalue="Kotlin.MainKt" />
         <item itemvalue="Application.Main" />
