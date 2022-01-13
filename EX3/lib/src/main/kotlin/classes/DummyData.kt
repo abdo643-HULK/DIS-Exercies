@@ -1,3 +1,5 @@
 package classes
 
-data class DummyData(val mFirstName: String, val mLastName: String)
+import jakarta.xml.bind.annotation.XmlElement
+
+data class DummyData(@XmlElement val mFirstName: String, @XmlElement val mLastName: String)
