@@ -1,13 +1,17 @@
 package interfaces
 
+import classes.WeatherResponse
 import jakarta.jws.WebMethod
 import jakarta.jws.WebService
 
 @WebService
-interface EnvironmentService {
+interface IEnvironmentService {
     @WebMethod
-    fun requestEnvironmentDataTypes() : Array<String>
+    fun requestEnvironmentDataTypes(): Array<String>
 
     @WebMethod
-    fun request() : Array<String>
+    fun requestJSONData(_city: String): WeatherResponse
+
+    @WebMethod
+    fun requestXmlData(_city: String): WeatherResponse
 }
