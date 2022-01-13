@@ -4,6 +4,7 @@ plugins {
 }
 
 version = "1.0.0"
+group = "com.shehatamilo"
 
 repositories {
     mavenCentral()

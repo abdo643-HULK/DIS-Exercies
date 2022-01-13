@@ -1,3 +1,5 @@
+import classes.DummyData;
+
 public class HelloWorld {
 	String saySomething() {
 		return "";

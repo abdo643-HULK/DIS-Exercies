@@ -1,1 +1,3 @@
+package classes
+
 data class DummyData(val mFirstName: String, val mLastName: String)
