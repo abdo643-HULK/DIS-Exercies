@@ -4,17 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ee11814-f7c8-4259-b8eb-09ff4af489ed" name="Changes" comment="3b">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/jaxb/EX3.jaxb.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/jaxb/EX3.jaxb.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/lib/EX3.lib.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/lib/EX3.lib.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/soap/server/EX3.soap.server.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/soap/server/EX3.soap.server.main.iml" afterDir="false" />
+    <list default="true" id="7ee11814-f7c8-4259-b8eb-09ff4af489ed" name="Changes" comment="preparation">
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/HelloClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/DummyData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/GetData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/GetDataResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/HelloWorld.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/HelloWorldService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/ObjectFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/SaySomething.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/SaySomethingResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/java/com/shehatamilo/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/soap/client/src/main/resources/HelloWorld.wsdl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/jaxb/EX3.jaxb.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/lib/EX3.lib.main.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/soap/server/EX3.soap.server.main.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/src/main/kotlin/classes/DummyData.kt" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/main/kotlin/classes/DummyData.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/soap/server/src/main/java/HelloWorld.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/soap/server/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/soap/server/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/soap/server/src/main/java/hello/DummyData.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/soap/server/src/main/java/hello/HelloWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/soap/server/src/main/java/hello/HelloWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/soap/client/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/soap/client/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,12 +36,88 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$/soap/client">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/soap">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="EX3" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="other" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="verification" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="other" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="EX3" type="f1a62948:ProjectNode" />
+                <item name="soap" type="2d1252cf:ModuleNode" />
+                <item name="client" type="2d1252cf:ModuleNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="verification" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -68,16 +151,19 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="23brf1ZS5JCC93yERrmvrdGmbDF" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/soap" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/soap/server/src/main/resources" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15722656" />
@@ -85,7 +171,13 @@
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Hagenberg_FH\3. Semester\VIS\DIS-Exercies\EX3\soap\server\src\main\resources" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Hagenberg_FH\3. Semester\VIS\DIS-Exercies\EX3\soap\client\src\main" />
+      <recent name="D:\Hagenberg_FH\3. Semester\VIS\DIS-Exercies\EX3\soap\client\src" />
+      <recent name="D:\Hagenberg_FH\3. Semester\VIS\DIS-Exercies\EX3\soap\client" />
       <recent name="C:\Code\FH\VIS\EX3\soap\server\src\main\java" />
       <recent name="C:\Code\FH\VIS\EX3\soap" />
     </key>
@@ -97,17 +189,17 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main (1)">
-    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="EX3.soap.server.main" />
+  <component name="RunManager" selected="Application.HelloClient">
+    <configuration name="HelloClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HelloClient" />
+      <module name="EX3.soap.client.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="EX3.jaxb.main" />
+      <module name="EX3.soap.server.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -119,6 +211,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="EX3:soap:client [wsimport]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/soap/client" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="wsimport" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MainKt" />
       <module name="EX3.jaxb.main" />
@@ -128,10 +241,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.EX3:soap:client [wsimport]" />
+        <item itemvalue="Application.HelloClient" />
         <item itemvalue="Application.Main (1)" />
         <item itemvalue="Application.WGS" />
         <item itemvalue="Kotlin.MainKt" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -187,6 +301,7 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="first part finished" />
     <MESSAGE value="fixed javax-ws" />
     <MESSAGE value="3b" />
