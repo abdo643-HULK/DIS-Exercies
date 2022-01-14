@@ -13,12 +13,9 @@ import java.net.HttpURLConnection
 import java.net.URI
 import javax.xml.transform.stream.StreamSource
 
+const val SECONDS_DIVISOR = 1000
 
-@WebService(
-    name = "classes.Environment",
-    endpointInterface = "interfaces.IEnvironmentService",
-    targetNamespace = ""
-)
+@WebService(endpointInterface = "interfaces.IEnvironmentService")
 class Environment : IEnvironmentService {
 
     init {
@@ -32,11 +29,11 @@ class Environment : IEnvironmentService {
     private fun fetchFromOwm(_city: String, _mode: Mode): String {
         val url = StringBuilder(Constants.OWM_URL)
         url.append("?q=$_city,at")
-        url.append("&mode=${_mode}")
         url.append("&units=${Constants.OWM_UNIT}")
         url.append("&lang=${Constants.USER_LANG}")
         url.append("&appid=${Constants.OWM_KEY}")
 
+        if (_mode != Mode.JSON) url.append("&mode=${_mode.mType}")
         val connection = URI(url.toString()).toURL().openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
 
@@ -55,11 +52,8 @@ class Environment : IEnvironmentService {
         return content.toString()
     }
 
-    override fun requestEnvironmentDataTypes(): Array<String> {
-        return mSupportedCities;
-    }
 
-    override fun requestJSONData(_city: String): WeatherResponse {
+    private fun requestJSONData(_city: String): WeatherResponse {
         val unmarshaller = mJC.createUnmarshaller()
         unmarshaller.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, false)
         unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, MediaType.APPLICATION_JSON)
@@ -70,7 +64,7 @@ class Environment : IEnvironmentService {
         return unmarshaller.unmarshal(json, WeatherResponse::class.java).value
     }
 
-    override fun requestXmlData(_city: String): WeatherResponse {
+    private fun requestXmlData(_city: String): WeatherResponse {
         val unmarshaller = mJC.createUnmarshaller()
         unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, MediaType.APPLICATION_XML)
 
@@ -79,8 +73,21 @@ class Environment : IEnvironmentService {
 
         return unmarshaller.unmarshal(xml) as WeatherResponse
     }
+
+    override fun requestEnvironmentDataTypes(): Array<String> {
+        return mSupportedCities;
+    }
+
+    override fun requestData(_city: String): EnvData {
+        val repsonse = requestJSONData(_city)
+        val time = (System.currentTimeMillis() / SECONDS_DIVISOR).toString()
+
+        return EnvData(time, "humidity", floatArrayOf(repsonse.mMain?.mHumidity ?: 0f))
+    }
 }
 
-private enum class Mode {
-    XML, JSON
+private enum class Mode(val mType: String) {
+    JSON(""),
+    XML("xml"),
+    HTML("html")
 }

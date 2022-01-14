@@ -17,7 +17,7 @@ import jakarta.xml.ws.WebServiceFeature;
  * Generated source version: 3.0
  * 
  */
-@WebServiceClient(name = "HelloWorldService", targetNamespace = "http://hello/", wsdlLocation = "file:/D:/Hagenberg_FH/3.%20Semester/VIS/DIS-Exercies/EX3/soap/client/src/main/resources/HelloWorld.wsdl")
+@WebServiceClient(name = "HelloWorldService", targetNamespace = "http://hello/", wsdlLocation = "file:/C:/Code/FH/VIS/EX3/soap/client/src/main/resources/HelloWorld.wsdl")
 public class HelloWorldService
     extends Service
 {
@@ -30,7 +30,7 @@ public class HelloWorldService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("file:/D:/Hagenberg_FH/3.%20Semester/VIS/DIS-Exercies/EX3/soap/client/src/main/resources/HelloWorld.wsdl");
+            url = new URL("file:/C:/Code/FH/VIS/EX3/soap/client/src/main/resources/HelloWorld.wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

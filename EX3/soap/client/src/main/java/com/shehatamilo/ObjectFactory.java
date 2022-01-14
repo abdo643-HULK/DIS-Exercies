@@ -24,7 +24,7 @@ import jakarta.xml.bind.annotation.XmlRegistry;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _DummyData_QNAME = new QName("http://hello/", "dummyData");
+    private final static QName _Dummy_QNAME = new QName("http://hello/", "dummy");
     private final static QName _GetData_QNAME = new QName("http://hello/", "getData");
     private final static QName _GetDataResponse_QNAME = new QName("http://hello/", "getDataResponse");
     private final static QName _SaySomething_QNAME = new QName("http://hello/", "saySomething");
@@ -85,9 +85,9 @@ public class ObjectFactory {
      * @return
      *     the new instance of {@link JAXBElement }{@code <}{@link DummyData }{@code >}
      */
-    @XmlElementDecl(namespace = "http://hello/", name = "dummyData")
-    public JAXBElement<DummyData> createDummyData(DummyData value) {
-        return new JAXBElement<DummyData>(_DummyData_QNAME, DummyData.class, null, value);
+    @XmlElementDecl(namespace = "http://hello/", name = "dummy")
+    public JAXBElement<DummyData> createDummy(DummyData value) {
+        return new JAXBElement<DummyData>(_Dummy_QNAME, DummyData.class, null, value);
     }
 
     /**

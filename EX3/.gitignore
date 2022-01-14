@@ -1,6 +1,6 @@
 cmake-build-debug
 out
-.env
+.idea/
 gradle.properties
 
 .gradle

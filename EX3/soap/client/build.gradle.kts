@@ -26,9 +26,10 @@ tasks.getByName<Test>("test") {
 }
 
 tasks.register("wsimport") {
-    group = BasePlugin.BUILD_GROUP
-    val sourcedestdir = file("$projectDir/src/main/java")
-    sourcedestdir.mkdirs()
+//    group = BasePlugin.BUILD_GROUP
+    val srcDestDir = file("$projectDir/src/main/java")
+    srcDestDir.mkdirs()
+
     doLast {
         ant.withGroovyBuilder {
             "taskdef"(
@@ -36,15 +37,13 @@ tasks.register("wsimport") {
                 "classname" to "com.sun.tools.ws.ant.WsImport",
                 "classpath" to sourceSets.getAt("main").runtimeClasspath.asPath
             )
+
             "wsimport"(
+                "sourcedestdir" to srcDestDir,
                 "keep" to true,
-                "Xnocompile" to true,
-                "sourcedestdir" to sourcedestdir,
+                "package" to "com.shehatamilo",
                 "wsdl" to "${projectDir}/src/main/resources/HelloWorld.wsdl",
-                "package" to "com.shehatamilo"
-            ) {
-                "xjcarg"("value" to "-XautoNameResolution")
-            }
+            )
         }
     }
 }

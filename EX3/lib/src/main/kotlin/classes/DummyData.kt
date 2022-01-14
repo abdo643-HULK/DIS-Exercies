@@ -5,8 +5,13 @@ import jakarta.xml.bind.annotation.XmlAccessorType
 import jakarta.xml.bind.annotation.XmlElement
 import jakarta.xml.bind.annotation.XmlRootElement
 
-@XmlRootElement
+@XmlRootElement(name = "dummy")
 @XmlAccessorType(XmlAccessType.FIELD)
-data class DummyData(@XmlElement val mFirstName: String, @XmlElement val mLastName: String) {
+data class DummyData(
+    @field:XmlElement(name = "first-name")
+    val mFirstName: String,
+    @field:XmlElement(name = "last-name")
+    val mLastName: String
+) {
     constructor() : this("", "")
 }

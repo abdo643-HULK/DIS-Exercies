@@ -30,21 +30,6 @@ const val OFFLINE_CPP =
 
 @WebServlet(name = "EnvironmentServiceServlet", urlPatterns = ["/env"])
 class EnvironmentServiceServlet : HttpServlet() {
-//    private val mRmiClient by lazy {
-//        try {
-//            EnvClient()
-//        } catch (_e: Exception) {
-//            null
-//        }
-//    }
-//    private val mCppClient by lazy {
-//        try {
-//            TcpEnviClient(CPP_SERVER_PORT, "127.0.0.1")
-//        } catch (_e: IOException) {
-//            null
-//        }
-//    }
-
     override fun doGet(_req: HttpServletRequest, _res: HttpServletResponse) {
         val rmiClient = try {
             EnvClient()
@@ -58,8 +43,6 @@ class EnvironmentServiceServlet : HttpServlet() {
             null
         }
 
-        println(rmiClient)
-        println(cppClient)
 
         val htmlFile =
             servletContext

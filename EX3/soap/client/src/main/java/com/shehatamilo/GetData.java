@@ -7,9 +7,9 @@ import jakarta.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java-Klasse für getData complex type.
+ * <p>Java class for getData complex type.
  * 
- * <p>Das folgende Schemafragment gibt den erwarteten Content an, der in dieser Klasse enthalten ist.
+ * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
  * &lt;complexType name="getData"&gt;
@@ -34,7 +34,7 @@ public class GetData {
     protected String arg0;
 
     /**
-     * Ruft den Wert der arg0-Eigenschaft ab.
+     * Gets the value of the arg0 property.
      * 
      * @return
      *     possible object is
@@ -46,7 +46,7 @@ public class GetData {
     }
 
     /**
-     * Legt den Wert der arg0-Eigenschaft fest.
+     * Sets the value of the arg0 property.
      * 
      * @param value
      *     allowed object is
