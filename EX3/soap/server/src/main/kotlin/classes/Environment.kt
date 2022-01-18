@@ -81,7 +81,7 @@ class Environment : IEnvironmentService {
         return mSupportedCities.toTypedArray();
     }
 
-    override fun requestData(_city: String): EnvData {
+    override fun requestData(_city: String): Array<EnvData> {
         if (!mSupportedCities.contains(_city))
             throw SOAPException(
                 "Invalid city provided as input, for more information about the available cities " +
@@ -92,7 +92,11 @@ class Environment : IEnvironmentService {
         val time = (System.currentTimeMillis() / SECONDS_DIVISOR).toString()
 
 
-        return EnvData(time, "humidity", intArrayOf(response.mMain?.mHumidity?.toInt() ?: 0))
+        return arrayOf(
+            EnvData(time, "temp", intArrayOf(response.mMain?.mTemp?.toInt() ?: 0)),
+            EnvData(time, "humidity", intArrayOf(response.mMain?.mHumidity?.toInt() ?: 0)),
+            EnvData(time, "pressure", intArrayOf(response.mMain?.mPressure?.toInt() ?: 0))
+        )
     }
 }
 

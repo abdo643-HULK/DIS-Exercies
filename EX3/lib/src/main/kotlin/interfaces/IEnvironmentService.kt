@@ -20,7 +20,7 @@ interface IEnvironmentService {
     @WebMethod
     fun requestData(
         @WebParam(name = "city") _city: String
-    ): EnvData
+    ): Array<EnvData>
 
 //    @WebMethod
 //    fun requestJSONData(_city: String): WeatherResponse

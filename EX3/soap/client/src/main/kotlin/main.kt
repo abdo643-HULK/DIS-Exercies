@@ -15,7 +15,7 @@ fun main() {
 
     try {
         val res = soap.requestData("Wien")
-        println(res)
+        println(res.contentToString())
     } catch (_e: Exception) {
         println(_e.localizedMessage)
     }
