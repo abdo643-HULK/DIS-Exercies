@@ -4,8 +4,6 @@ plugins {
     kotlin("jvm")
 }
 
-
-
 version = "1.0.0"
 
 repositories {
@@ -13,7 +11,6 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(project(":lib"))
 
     // https://mvnrepository.com/artifact/com.sun.xml.ws/jaxws-rt

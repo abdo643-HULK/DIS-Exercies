@@ -4,6 +4,7 @@ import Constants
 import interfaces.IEnvironmentService
 import jakarta.jws.WebService
 import jakarta.xml.bind.JAXBContext
+import jakarta.xml.soap.SOAPException
 import org.eclipse.persistence.jaxb.UnmarshallerProperties
 import org.eclipse.persistence.oxm.MediaType
 import java.io.BufferedReader
@@ -19,10 +20,12 @@ const val SECONDS_DIVISOR = 1000
 class Environment : IEnvironmentService {
 
     init {
+        System.setProperty("javax.xml.bind.context.factory", "org.eclipse.persistence.jaxb.JAXBContextFactory")
         System.setProperty("jakarta.xml.bind.JAXBContextFactory", "org.eclipse.persistence.jaxb.JAXBContextFactory")
+//        System.setProperty("jakarta.xml.bind.JAXBContextFactory", "org.glassfish.jaxb.runtime.v2.JAXBContextFactory")
     }
 
-    private val mSupportedCities = arrayOf("Wien", "Linz")
+    private val mSupportedCities = setOf("Wien", "Linz")
 
     private val mJC by lazy { JAXBContext.newInstance(WeatherResponse::class.java) }
 
@@ -75,14 +78,21 @@ class Environment : IEnvironmentService {
     }
 
     override fun requestEnvironmentDataTypes(): Array<String> {
-        return mSupportedCities;
+        return mSupportedCities.toTypedArray();
     }
 
     override fun requestData(_city: String): EnvData {
-        val repsonse = requestJSONData(_city)
+        if (!mSupportedCities.contains(_city))
+            throw SOAPException(
+                "Invalid city provided as input, for more information about the available cities " +
+                        "call the following method: 'requestEnvironmentDataTypes()'"
+            )
+
+        val response = requestJSONData(_city)
         val time = (System.currentTimeMillis() / SECONDS_DIVISOR).toString()
 
-        return EnvData(time, "humidity", floatArrayOf(repsonse.mMain?.mHumidity ?: 0f))
+
+        return EnvData(time, "humidity", intArrayOf(response.mMain?.mHumidity?.toInt() ?: 0))
     }
 }
 

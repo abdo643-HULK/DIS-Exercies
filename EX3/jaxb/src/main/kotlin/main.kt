@@ -19,7 +19,6 @@ fun main() {
     try {
         val props = Properties(10)
         props.load(FileInputStream(File("gradle.properties")))
-        println(Constants.OWM_KEY)
 
         val factory = SAXParserFactory.newInstance()
         val saxParser = factory.newSAXParser()

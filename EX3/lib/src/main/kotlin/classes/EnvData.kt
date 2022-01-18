@@ -12,11 +12,11 @@ data class EnvData(
     val mSensor: String,
     @field:XmlElementWrapper(name = "values")
     @field:XmlElement(name = "value")
-    val mValues: FloatArray
+    val mValues: IntArray
 ) : Serializable {
     companion object {
         const val serialVersionUID = 123L
     }
 
-    constructor() : this("", "", floatArrayOf())
+    constructor() : this("", "", intArrayOf())
 }

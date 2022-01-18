@@ -1,17 +1,22 @@
 import interfaces.IEnvironmentService
+import jakarta.xml.soap.SOAPException
 import jakarta.xml.ws.Service
 import java.net.URI
 import javax.xml.namespace.QName
 
 fun main() {
     val url = URI("${Constants.ENV_SERVER_URL}?wsdl")
-    val name = QName("http://classes/", "EnvironmentService")
+    val name = QName("http://classes/", IEnvironmentService.ENVIRONMENT_SERVICE_KEY)
     val service = Service.create(url.toURL(), name)
 
     val soap: IEnvironmentService = service.getPort(IEnvironmentService::class.java)
 
     println(soap.requestEnvironmentDataTypes().contentToString())
 
-    val res = soap.requestData(_city = "Linz")
-    println(res)
+    try {
+        val res = soap.requestData("Wien")
+        println(res)
+    } catch (_e: Exception) {
+        println(_e.localizedMessage)
+    }
 }
