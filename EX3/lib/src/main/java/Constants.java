@@ -2,11 +2,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * holds all our constants for all the modules
+ */
 public class Constants {
 	private static final Properties mProperties = new Properties();
 
+
 	static {
 		try {
+			/// reads the file with the secret keys that shouldn't be exposed on our git repo
 			mProperties.load(new FileInputStream("gradle.properties"));
 		} catch (IOException _e) {
 			_e.printStackTrace();

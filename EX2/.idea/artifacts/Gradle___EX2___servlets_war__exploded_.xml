@@ -24,12 +24,12 @@
             <element id="module-output" name="EX2.rmi.client.main" />
             <element id="dir-copy" path="$PROJECT_DIR$/rmi/client/build/resources/main" />
           </element>
-          <element id="library" level="project" name="Gradle: org.jetbrains:annotations:13.0" />
-          <element id="library" level="project" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.6.10" />
           <element id="archive" name="EX2-lib.jar">
             <element id="module-output" name="EX2.lib.main" />
             <element id="dir-copy" path="$PROJECT_DIR$/lib/build/resources/main" />
           </element>
+          <element id="library" level="project" name="Gradle: org.jetbrains:annotations:13.0" />
+          <element id="library" level="project" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.6.10" />
         </element>
       </element>
     </root>

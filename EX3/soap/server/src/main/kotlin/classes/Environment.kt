@@ -2,9 +2,7 @@ package classes
 
 import Constants
 import interfaces.IEnvironmentService
-import jakarta.jws.WebService
-import jakarta.xml.bind.JAXBContext
-import jakarta.xml.soap.SOAPException
+import org.eclipse.persistence.jaxb.JAXBContext
 import org.eclipse.persistence.jaxb.UnmarshallerProperties
 import org.eclipse.persistence.oxm.MediaType
 import java.io.BufferedReader
@@ -12,6 +10,8 @@ import java.io.InputStreamReader
 import java.io.StringReader
 import java.net.HttpURLConnection
 import java.net.URI
+import javax.jws.WebService
+import javax.xml.soap.SOAPException
 import javax.xml.transform.stream.StreamSource
 
 const val SECONDS_DIVISOR = 1000
@@ -27,8 +27,21 @@ class Environment : IEnvironmentService {
 
     private val mSupportedCities = setOf("Wien", "Linz")
 
+    /**
+     * the jaxb instance for the marshaller and unmarshaller
+     */
     private val mJC by lazy { JAXBContext.newInstance(WeatherResponse::class.java) }
 
+    /**
+     * Builds the Url with the help of a StringBuilder because
+     * standard ws doesn't have an Url Class. With the url
+     * we fetch and build the string and return it
+     *
+     * @param _city the City to fetch the data for
+     * @param _mode sets if the response should be XML or JSON
+     *
+     * @return the XML or JSON Response from the Api
+     */
     private fun fetchFromOwm(_city: String, _mode: Mode): String {
         val url = StringBuilder(Constants.OWM_URL)
         url.append("?q=$_city,at")
@@ -40,7 +53,6 @@ class Environment : IEnvironmentService {
         val connection = URI(url.toString()).toURL().openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
 
-//        val status: Int = connection.responseCode
         val input = BufferedReader(InputStreamReader(connection.inputStream))
         var inputLine: String?
         val content = StringBuilder()
@@ -55,7 +67,9 @@ class Environment : IEnvironmentService {
         return content.toString()
     }
 
-
+    /**
+     * parses the json from the weather api and returns the WeatherResponse object
+     */
     private fun requestJSONData(_city: String): WeatherResponse {
         val unmarshaller = mJC.createUnmarshaller()
         unmarshaller.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, false)
@@ -67,6 +81,9 @@ class Environment : IEnvironmentService {
         return unmarshaller.unmarshal(json, WeatherResponse::class.java).value
     }
 
+    /**
+     * parses the xml from the weather api and returns the WeatherResponse object
+     */
     private fun requestXmlData(_city: String): WeatherResponse {
         val unmarshaller = mJC.createUnmarshaller()
         unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, MediaType.APPLICATION_XML)
@@ -90,7 +107,6 @@ class Environment : IEnvironmentService {
 
         val response = requestJSONData(_city)
         val time = (System.currentTimeMillis() / SECONDS_DIVISOR).toString()
-
 
         return arrayOf(
             EnvData(time, "temp", intArrayOf(response.mMain?.mTemp?.toInt() ?: 0)),

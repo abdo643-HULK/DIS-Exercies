@@ -1,17 +1,33 @@
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.Marshaller;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
-import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.eclipse.persistence.oxm.MediaType;
+import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-
+/**
+ * Our class that Tests the Jaxb
+ * marshaller and unmarshaller
+ */
 public class Main {
+	/**
+	 * The first part parses the xml string and
+	 * constructs a Pet Object and this
+	 * again gets serialized to a xml string
+	 *
+	 * The second part parses the json string and
+	 * constructs a Pet Object and this
+	 * again gets serialized to a json string
+	 *
+	 * @param _args the args passed to the program
+	 */
 	public static void main(String[] _args) {
-		System.setProperty("jakarta.xml.bind.JAXBContextFactory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
+//		System.setProperty("jakarta.xml.bind.JAXBContextFactory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
+		System.setProperty("javax.xml.bind.JAXBContextFactory","org.eclipse.persistence.jaxb.JAXBContextFactory");
+
 		try {
 			System.out.println("-------------- XML --------------");
 			var xmlString = new StringReader(""" 

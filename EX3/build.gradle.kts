@@ -1,8 +1,11 @@
+import org.jetbrains.gradle.ext.ProjectSettings
+import org.jetbrains.gradle.ext.BuildArtifact
+
 plugins {
     java
-    idea
     checkstyle
     kotlin("jvm") version "1.6.10"
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.1"
 }
 
 version = "1.0.0"

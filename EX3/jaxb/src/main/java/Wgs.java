@@ -4,15 +4,28 @@
 import java.util.regex.*;
 import java.util.*;
 
-class WGS {
+/**
+ * Class that holds the values of the example to parse
+ */
+class Wgs {
 	final float mLatitude;
 	final float mLongitude;
 
-	WGS(float _latitude, float _longitude) {
+	Wgs(float _latitude, float _longitude) {
 		mLatitude = _latitude;
 		mLongitude = _longitude;
 	}
 
+	/**
+	 * Parses the xml string with the
+	 * help of a regex and puts
+	 * the result into a hashmap
+	 * from the result we construct
+	 * the object with the properties
+	 * from the map
+	 *
+	 * @param _args the args passed to the program
+	 */
 	public static void main(String[] _args) {
 		var xml = "<wgs84><latitude>48.31</latitude><longitude>14.29</longitude></wgs84>";
 
@@ -32,7 +45,7 @@ class WGS {
 			}
 		}
 
-		var wgs84 = new WGS(map.get("latitude"), map.get("longitude"));
+		var wgs84 = new Wgs(map.get("latitude"), map.get("longitude"));
 
 		System.out.println(wgs84);
 	}

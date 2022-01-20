@@ -1,9 +1,13 @@
 package hello;
 
 import classes.DummyData;
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebService;
 
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+/**
+ * Warmup service for the soap exercise
+ */
 @WebService
 public class HelloWorld {
 

@@ -1,10 +1,13 @@
-import jakarta.xml.bind.annotation.*;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * the Pet class for our jaxb Exercise
+ */
 @XmlRootElement(name = "pet")
-@XmlType(propOrder = { "mName", "mTyp", "mId", "mBirthday", "mVaccinations" })
+@XmlType(propOrder = {"mName", "mTyp", "mId", "mBirthday", "mVaccinations"})
 public class Pet {
 	@XmlElement(name = "name")
 	String mName;
@@ -46,4 +49,26 @@ public class Pet {
 				+ "\nVaccinations: " + Arrays.toString(mVaccinations)
 				+ "\nID: " + mId;
 	}
+
+	public String getmName() {
+		return mName;
+	}
+
+	public Type getmTyp() {
+		return mTyp;
+	}
+
+	public String getmId() {
+		return mId;
+	}
+
+	public Date getmBirthday() {
+		return mBirthday;
+	}
+
+	public String[] getmVaccinations() {
+		return mVaccinations;
+	}
+
+
 }

@@ -1,30 +1,40 @@
 package interfaces
 
 import classes.EnvData
-import jakarta.jws.WebMethod
-import jakarta.jws.WebParam
-import jakarta.jws.WebService
-import jakarta.xml.soap.SOAPException
+import javax.jws.WebMethod
+import javax.jws.WebParam
+import javax.jws.WebService
+import javax.xml.soap.SOAPException
 import kotlin.jvm.Throws
 
+/**
+ * The Interface for our Soap Service and Client
+ */
 @WebService
 interface IEnvironmentService {
     companion object {
+        /**
+         * was better than adding it to the Constants class
+         * Got it from the decompiled EnvironmentServiceIF
+         * in the Jax-rs folder
+         */
         const val ENVIRONMENT_SERVICE_KEY = "EnvironmentService"
     }
 
+    /**
+     * @return all the supported Locations
+     */
     @WebMethod
     fun requestEnvironmentDataTypes(): Array<String>
 
+    /**
+     * @param _city the City to get the weather data of
+     *
+     * @return temp, humidity and pressure of the specified city as Array of EnvData
+     */
     @Throws(SOAPException::class)
     @WebMethod
     fun requestData(
         @WebParam(name = "city") _city: String
     ): Array<EnvData>
-
-//    @WebMethod
-//    fun requestJSONData(_city: String): WeatherResponse
-//
-//    @WebMethod
-//    fun requestXmlData(_city: String): WeatherResponse
 }

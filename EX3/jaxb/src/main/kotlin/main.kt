@@ -1,13 +1,14 @@
 import org.xml.sax.InputSource
-import java.io.File
-import java.io.FileInputStream
 import java.io.StringReader
-import java.util.*
 import javax.xml.parsers.SAXParserFactory
 
+/**
+ * Uses a stream parser (sax) to
+ * construct a Wind class from the xml
+ */
 fun main() {
     val xml = StringReader(
-    """
+        """
     <?xml version="1.0" encoding="UTF-8"?>
     <wind>
          <speed>50.25</speed>
@@ -17,9 +18,6 @@ fun main() {
     )
 
     try {
-        val props = Properties(10)
-        props.load(FileInputStream(File("gradle.properties")))
-
         val factory = SAXParserFactory.newInstance()
         val saxParser = factory.newSAXParser()
         val handler = WeatherHandler()

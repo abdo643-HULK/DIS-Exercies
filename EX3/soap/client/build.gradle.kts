@@ -39,6 +39,7 @@ tasks.register("wsimport") {
                 "sourcedestdir" to srcDestDir,
                 "keep" to true,
                 "package" to "com.shehatamilo",
+//                "wsdl" to "http://localhost:8081/HelloWorld?wsdl",
                 "wsdl" to "${projectDir}/src/main/resources/HelloWorld.wsdl",
             )
         }
