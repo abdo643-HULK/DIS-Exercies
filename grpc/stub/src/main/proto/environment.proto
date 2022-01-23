@@ -1,0 +1,96 @@
+syntax = "proto3";
+/**
+	gRPC doesn't relay on Protocol Buffers (short ProtoBuf) to transport data but
+	because ProtoBuf is smaller in size compared to JSON, it's the default. You can
+	JSON but would have to add a JSON Marshaller/UnMarshaller.
+ */
+
+/**
+	name of the java package that gets created.
+	Every language has its own options
+ */
+option java_package = "environment";
+/**
+	The Proto Compiler puts everything inside a
+	wrapper class inside one file and this options
+	allows to break it into small files without the wrapper class
+ */
+option java_multiple_files = true;
+
+package environment;
+
+/**
+	This allows to map http calls to gRPC
+	calls with either the help of a framework/library that acts as a proxy/gateway for languages
+	like go, or to use it with a proxy/gateway like Envoy or Nginx
+ */
+import "google/api/annotations.proto";
+
+/**
+	a helper for timestamps
+ */
+import "google/protobuf/timestamp.proto";
+/**
+	Because every RPC needs to define a message there is
+	a built in Type from google
+ */
+import "google/protobuf/empty.proto";
+/**
+	This lib includes all types as Wrapper Messages instead of having
+	to create them.
+ */
+import "google/protobuf/wrappers.proto";
+
+service Environment {
+	rpc requestEnvironmentDataTypes(google.protobuf.Empty) returns (SensorTypes) {
+		// example of http get mapping
+		option(google.api.http) = {
+			get: "v1/sensors"
+		};
+	};
+
+	rpc requestEnvironmentData(Sensor) returns (EnvData) {
+		option(google.api.http) = {
+			get: "v1/{sensor}"
+		};
+	};
+
+	rpc requestAll(google.protobuf.Empty) returns (stream EnvData) {
+		option(google.api.http) = {
+			get: "v1/all"
+		};
+	};
+
+	rpc setValues(stream SensorValues) returns (google.protobuf.StringValue) {
+		// example of http post mapping
+		option(google.api.http) = {
+			post: "v1/values"
+			body: "*"
+		};
+	};
+}
+
+message EnvData {
+	google.protobuf.Timestamp timestamp = 1;
+	SensorType sensor = 2;
+	repeated int64 values = 3;
+}
+
+message SensorValues {
+	SensorType sensor = 1;
+	repeated int64 values = 2;
+}
+
+message SensorTypes {
+	repeated SensorType type = 1;
+}
+
+message Sensor {
+	SensorType Value = 1;
+}
+
+enum SensorType {
+	TEMPERATURE = 0;
+	PRESSURE = 1;
+	HUMIDITY = 2;
+}
